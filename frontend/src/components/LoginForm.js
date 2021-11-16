@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
         UserStore.username = result.username;
         UserStore.loading = false;
       }
-      else if(result && result.success == false) {
+      else if(result && result.success === false) {
         this.resetForm();
         alert(result.msg)
       }
