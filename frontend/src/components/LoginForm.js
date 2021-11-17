@@ -51,20 +51,31 @@ class LoginForm extends React.Component {
       buttonDisabled: true
     })
     try {
-      let res = await fetch("/login", {
-        method: "post",
+      console.log(this.state.username);
+      console.log(this.state.password);
+      let res = await fetch("http://localhost:4000/graphql", {
+        method: "POST",
         headers: {
-          "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          username: this.state.username,
+        body:JSON.stringify({
+          query:`{
+            login(
+              email:"${this.state.username}",
+              password:"${this.state.password}"
+            ){
+              token
+              userId
+            }}`
+          /*username: this.state.username,
           password: this.state.password
+          */
         })
       });
 
       //wait for the result to arrive
       let result = await res.json();
+      console.log(result.data);
       
       //if the login is successful update the user store
       if(result && result.success) {
