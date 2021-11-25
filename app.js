@@ -11,10 +11,10 @@ const graphqlResolvers = require('./graphql/resolvers/index');
 const app = express();
 
 
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json());
+app.use(express.json());
 
 
 

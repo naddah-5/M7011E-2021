@@ -9,8 +9,9 @@ class UserStore {
         extendObservable(this, {
             loading: true,
             isLoggedIn: false,
-            //there must be some form of auth token or similar here, the client can not be trusted
-            username: ""
+            username: "",
+            userId:"",
+            authToken: ""
         })
     }
 }

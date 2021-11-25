@@ -1,59 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+/*import Express from 'express';
+import bodyParser from 'body-parser';*/
 import InputField from './InputField';
 import SubmitButton from './SubmitButton';
 import UserStore from '../stores/UserStore';
 
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state= {
-      username: "",
-      password: "",
-      buttonDisabled: false
-    }
+function LoginForm(props) {
+  const [username,setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setButtonDisabled(false);
   }
 
-  //input value from the forms
-  setInputValue(property, val) {
-    //remove any spaces in the input
-    val = val.trim();
-    //if the input is longer than 12 characters we return false, i.e. maximum password and username length
-    if (val.length > 12) {
-      return false;
+  const loginUser = async () => {
+    // if either the username or password is empty we wont bother handling the log in request
+    if(!username) {
+      resetForm();
+      alert("Incorrect username or password")
+      return(false);
     }
-    this.setState({
-      [property]: val
-    })
-  }
-
-  resetForm() {
-    this.setState({
-      username: "",
-      password: "",
-      buttonDisabled: false
-    })
-  }
-
-  async loginUser() {
-    //begin by checking if both input fields have been entered with valiid values
-
-    //if no username is received return false
-    if(!this.state.username) {
-      return false;
-    }
-    //if no password is received  return false
-    if(!this.state.password) {
-      return false;
+    if(!password) {
+      resetForm();
+      alert("Incorrect username or password")
+    return(false);
     }
 
-    //disable the login button so that we don't get flood the api with loginrequests 
-    this.setState({
-      buttonDisabled: true
-    })
+    //disable the login button so that we don't flood the api with login requests 
+    setButtonDisabled(false);
     try {
-      console.log(this.state.username);
-      console.log(this.state.password);
-      let res = await fetch("http://localhost:4000/graphql", {
+      console.log(username);
+      console.log(password);
+      const res = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -61,70 +43,75 @@ class LoginForm extends React.Component {
         body:JSON.stringify({
           query:`{
             login(
-              email:"${this.state.username}",
-              password:"${this.state.password}"
+              email:"${username}",
+              password:"${password}"
             ){
               token
               userId
             }}`
-          /*username: this.state.username,
-          password: this.state.password
-          */
         })
       });
 
-      //wait for the result to arrive
+      //wait for the ASYNC result to arrive before we try to do anything with it
       let result = await res.json();
-      console.log(result.data);
-      
+
+
       //if the login is successful update the user store
-      if(result && result.success) {
+      if(res.status === 200) {
+        UserStore.loading = true;
+        console.log(result.data);
+        console.log(res.status);
         UserStore.isLoggedIn = true;
-        UserStore.username = result.username;
+        UserStore.username = username;
+
+        console.log("the stored username is: " + UserStore.username)
+
+        UserStore.userId =  result.data.login["userId"];
+        UserStore.authToken = result.data.login["token"];
+
+
+        console.log("the stored user ID is: " + UserStore.userId);
+        console.log("the stored auth token is: " + UserStore.authToken);
+
+
         UserStore.loading = false;
       }
-      else if(result && result.success === false) {
-        this.resetForm();
-        alert(result.msg)
+      else if(res.status === 500) {
+        resetForm();
+        alert("Incorrect username or password")
       }
 
     }
     catch(e) {
       console.log(e);
-      this.resetForm();
+      resetForm();
     }
   }
   
-  render () {
-    return(
-      <div className="loginForm">
-        Log in
-        <InputField
-          type="text"
-          placeholder="Username"
-          //in my opinion it's generally bad for readability to use ternary operations but it seems like it is the only way here
-          //otherwise it has to be done in conditionals outside this part
-          value={this.state.username ? this.state.username : ""}
-          onChange={ (val) => this.setInputValue("username", val) }
-        />
+  return(
+    <div className="loginForm"> 
+      Log in
+      <InputField
+        type="text"
+        placeholder="Username"
+        value={username ? username : ""}
+        onChange={ (val) => setUsername(val) }
+      />
 
-        <InputField
-          type="Password"
-          placeholder="Password"
-          //in my opinion it's generally bad for readability to use ternary operations but it seems like it is the only way here
-          //otherwise it has to be done in conditionals outside this part
-          value={this.state.password ? this.state.password : ""}
-          onChange={ (val) => this.setInputValue("password", val) }
-        />
+      <InputField
+        type="Password"
+        placeholder="Password"
+        value={password ? password : ""}
+        onChange={ (val) => setPassword(val) }
+      />
 
-        <SubmitButton
-          text="Login"
-          disabled={this.state.buttonDisabled}
-          onClick={ () => this.loginUser() }
-        />
-      </div>
+      <SubmitButton
+        text="Login"
+        disabled={buttonDisabled}
+        onClick={ () => loginUser() }
+      />
+    </div>
     );
-  }
 }
 
 export default LoginForm;
