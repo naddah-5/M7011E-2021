@@ -19,7 +19,7 @@ function App() {
   
       let result = await res.json();
   
-      if(result) {
+      if(res.status === 200) {
         UserStore.isLoggedIn = true;
         UserStore.username = result.username;
         UserStore.loading = false;
@@ -34,6 +34,7 @@ function App() {
     }
   
     catch(e) {
+      console.log("Error in checking logged in users from db: " + e);
       UserStore.isLoggedIn = false;
       UserStore.username = "";
       UserStore.loading = false;

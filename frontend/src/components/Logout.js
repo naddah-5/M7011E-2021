@@ -1,3 +1,4 @@
+//react is NOT unused, it is required for babel
 import react from         "react";
 import UserStore from     '../stores/UserStore';
 
