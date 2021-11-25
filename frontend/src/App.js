@@ -4,6 +4,7 @@ import UserStore from     './stores/UserStore';
 import LoginForm from     './components/LoginForm.js';
 import SubmitButton from  './components/SubmitButton';
 import './App.css';
+import LogoutUser from './components/Logout';
 
 function App() {
   useEffect (async () => {
@@ -39,7 +40,7 @@ function App() {
 
     }
   }, [])
-
+/*
 const logoutUser = async () => {
   try {
 
@@ -56,7 +57,7 @@ const logoutUser = async () => {
   catch(e) {
     console.log(e);
   }
-}
+}*/
 
   if(UserStore.loading){
     return(
@@ -76,7 +77,7 @@ const logoutUser = async () => {
           <SubmitButton
             text={"Log out"}
             disabled={false}
-            onClick={ () => logoutUser()}
+            onClick={ () => LogoutUser()}
             />
         </div>
       </div>

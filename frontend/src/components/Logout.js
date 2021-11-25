@@ -1,7 +1,5 @@
-import react from "react";
-
-
-
+import react from         "react";
+import UserStore from     '../stores/UserStore';
 
 function LogoutUser() {
     try {
