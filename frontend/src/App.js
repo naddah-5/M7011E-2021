@@ -8,12 +8,6 @@ import './App.css';
 
 
 function App() {
-  useEffect (async () => {
-    UserStore.isLoggedIn = false;
-    UserStore.username = "";
-    UserStore.loading = false;
-  }, [])
-
   if(UserStore.loading){
     return(
       <div className="app">

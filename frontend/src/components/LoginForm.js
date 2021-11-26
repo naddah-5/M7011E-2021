@@ -106,7 +106,7 @@ function LoginForm(props) {
       />
 
       <SubmitButton
-        text="Login"
+        text="Log in"
         disabled={buttonDisabled}
         onClick={ () => loginUser() }
       />
