@@ -17,7 +17,6 @@ type SimulatorEvent {
   electricityConsumption: Float!
   price: Float!
   date: String!
-  creator: User!
 }
 
 type User {
@@ -48,7 +47,7 @@ input UserInput {
 
 input SimulatorEventInput {
   windSpeed: Float!
-  electricityConsumption: Float!
+  electricityDemand: Float!
   price: Float!
   date: String!
 }

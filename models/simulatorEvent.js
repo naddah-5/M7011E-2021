@@ -8,7 +8,7 @@ const simulatorSchema = new Schema({
         type: Number,
         required: true
     },
-    electricityConsumption: {
+    electricityDemand: {
         type: Number,
         required: true
     },

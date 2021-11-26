@@ -50,7 +50,7 @@ const options = {useNewUrlParser: true, useUnifiedTopology: true}
 const mongo = mongoose.connect(dbPath, options);
 mongo.then(() => {
     console.log('connected');
-    app.listen(3000);
+    app.listen(4000);
 }, error => {
     console.log(error, 'error');
 }) 
