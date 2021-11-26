@@ -14,7 +14,7 @@ function App() {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        } 
+        }  
       });
   
       let result = await res.json();
