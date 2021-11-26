@@ -1,45 +1,30 @@
-import React, { useEffect } from    'react';
-import { observer } from            'mobx-react';
-import UserStore from               './stores/UserStore';
-import LoginForm from               './components/LoginForm.js';
-import SubmitButton from            './components/SubmitButton';
-import LogoutUser from              './components/Logout';
-import './App.css';
+import Navbar from './Navbar';
+import Home from './Home';
+import Profile from './Profile';
+import StartPage from './StartPage';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 
 function App() {
-  if(UserStore.loading){
-    return(
-      <div className="app">
-        <div className="container">
-        Please wait, I am loading...
-        </div>
-      </div>
-    )
-  }
-  else if(UserStore.isLoggedIn){
-    return(
-      <div className="app">
-        <div className="container">
-          welcome {UserStore.username}
 
-          <SubmitButton
-            text={"Log out"}
-            disabled={false}
-            onClick={ () => LogoutUser()}
-            />
-        </div>
-      </div>
-    );
-  }
   return (
-    <div className="app">
-      <div className="container">
-        <LoginForm/>
+    <div className="App">
+      <Navbar />
+      <div className="content">
+        <Router>
+          <Routes>
+              <Route exact path="/home" element={<Home/>}/>
+              <Route exact path="/profile" element={<Profile/>}/>
+              <Route exact path="/" element={<StartPage/>}/>
+             {/* <Route exact path="/" element={<LoginPage/>}/>
+              <Route exact path="/register" element={<Register/>}/>
+              <Route exact path="/profile" element={<Profile/>}/> */}
+          </Routes>
+        </Router>
       </div>
     </div>
-    );
-  
+  );
 }
 
-export default observer(App);
+export default App;

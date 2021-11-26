@@ -6,8 +6,8 @@ const User = require('../../models/user');
 const returnSimEvent = simulatorEvent => {
     return {...simulatorEvent._doc, 
         _id: simulatorEvent.id,
-        date: new Date(simulatorEvent._doc.date).toISOString(), 
-        creator: user.bind(this, simulatorEvent.creator)};
+        date: new Date(simulatorEvent._doc.date).toISOString()};
+        //creator: user.bind(this, simulatorEvent.creator)};
 };
 
 const simEvents = async eventId => {
