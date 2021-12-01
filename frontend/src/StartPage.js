@@ -1,5 +1,4 @@
-import React, { useEffect } from    'react';
-import { observer } from            'mobx-react';
+import React, { useEffect, useState } from    'react';
 import UserStore from               './stores/UserStore';
 import LoginForm from               './components/LoginForm.js';
 import SubmitButton from            './components/SubmitButton';
@@ -7,7 +6,9 @@ import LogoutUser from              './components/Logout';
 import './App.css';
 
 
-function StartPage() {
+function StartPage(props) {
+  const [loggedIn, setLoggedIn] = useState("");
+
   if(UserStore.loading){
     return(
       <div className="app">
@@ -26,7 +27,10 @@ function StartPage() {
           <SubmitButton
             text={"Log out"}
             disabled={false}
-            onClick={ () => LogoutUser()}
+            onClick={ () => {
+              LogoutUser()
+              setLoggedIn(false)
+            }}
             />
         </div>
       </div>
@@ -35,11 +39,15 @@ function StartPage() {
   return (
     <div className="app">
       <div className="container">
-        <LoginForm/>
+        <LoginForm
+          onSuccess={() => {
+            setLoggedIn(true);
+          }}
+          />
       </div>
     </div>
     );
   
 }
 
-export default observer(StartPage);
+export default StartPage;
