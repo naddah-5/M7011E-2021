@@ -4,14 +4,14 @@ import SubmitButton from "./SubmitButton";
 import UserStore from "../stores/UserStore";
 
 function RegistrationForm(){
-    const[username, setUsername] = setState("");
-    const[firstName, setFirstName] = setFirstName("");
-    const[lastName, setLastName] = setLastName("");
-    const[birthDate, setBirthDate] = setBirthDate("");
-    const[address, setAddress] = setAddress("");
-    const[password, setPassword] = setPassword("");
-    const[retypedPassword, setRetypedPassword] = setRetypedPassword("");
-    const[buttonDisabled, setButtonDisabled] = setButtonDisabled(false);
+    const[username, setUsername] = useState("");
+    const[firstName, setFirstName] = useState("");
+    const[lastName, setLastName] = useState("");
+    const[birthDate, setBirthDate] = useState("");
+    const[address, setAddress] = useState("");
+    const[password, setPassword] = useState("");
+    const[retypedPassword, setRetypedPassword] = useState("");
+    const[buttonDisabled, setButtonDisabled] = useState("");
 
     const resetForm = () => {
         setUsername("");
@@ -84,7 +84,7 @@ function RegistrationForm(){
                 alert("Registration complete!");
                 resetForm();
                 buttonDisabled(false);
-                
+
             }
         }
         catch(e) {
@@ -148,3 +148,5 @@ function RegistrationForm(){
         </div>
     );
 }
+
+export default RegistrationForm;

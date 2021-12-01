@@ -3,10 +3,11 @@ import UserStore from               './stores/UserStore';
 import LoginForm from               './components/LoginForm.js';
 import SubmitButton from            './components/SubmitButton';
 import LogoutUser from              './components/Logout';
+import RegistrationPage from        './RegistrationPage'
 import './App.css';
 
 
-function StartPage(props) {
+function StartPage() {
   const [loggedIn, setLoggedIn] = useState("");
 
   if(UserStore.loading){
@@ -44,6 +45,14 @@ function StartPage(props) {
             setLoggedIn(true);
           }}
           />
+        <SubmitButton
+          text={"Register"}
+          disabled={false}
+          onClick={ () => {
+            RegistrationPage()
+          }
+          }
+        />
       </div>
     </div>
     );
