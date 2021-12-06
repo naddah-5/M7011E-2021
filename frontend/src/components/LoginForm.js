@@ -35,6 +35,8 @@ function LoginForm(props) {
       // ONLY FOR TESTING!!!
       console.log(username);
       console.log(password);
+      //
+
       const res = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {

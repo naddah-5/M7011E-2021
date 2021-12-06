@@ -34,7 +34,7 @@ function RegistrationForm(){
             resetForm();
             alert("Please enter a valid password")
         }
-        else if (password != retypedPassword) {
+        else if (password !== retypedPassword) {
             resetForm();
             alert("Submitted passwords do not match")
             return(false);
@@ -45,7 +45,7 @@ function RegistrationForm(){
             return(false);
         }
 
-        setButtonDisabled(true);
+        //setButtonDisabled(true);
         try {
             // ONLY FOR TESTING!!!
             console.log("submitted username: " + username);
@@ -57,7 +57,7 @@ function RegistrationForm(){
             console.log("submitted address: " + address);
             
             const res = await fetch("http://localhost:4000/graphql", {
-                method: "POST",
+                method: "UPDATE",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -71,8 +71,7 @@ function RegistrationForm(){
                             address:"${address}"
 
                         ){
-                            password
-                            _id
+                            email
                         }
                     }`
                 })
@@ -117,8 +116,8 @@ function RegistrationForm(){
             />
             <InputField
                 type="text"
-                placeholder="Date of birth"
-                value={ birthDate ? birthDate : "YYMMDD"}
+                placeholder="Date of birth: YYMMDD"
+                value={ birthDate ? birthDate : ""}
                 onChange={ (val) => setBirthDate(val)}
             />
             <InputField

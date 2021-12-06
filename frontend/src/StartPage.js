@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from    'react';
+import { useNavigate } from          'react-router-dom'
 import UserStore from               './stores/UserStore';
 import LoginForm from               './components/LoginForm.js';
 import SubmitButton from            './components/SubmitButton';
@@ -9,7 +10,8 @@ import './App.css';
 
 function StartPage() {
   const [loggedIn, setLoggedIn] = useState("");
-
+  const navigate = useNavigate();
+  
   if(UserStore.loading){
     return(
       <div className="app">
@@ -49,7 +51,8 @@ function StartPage() {
           text={"Register"}
           disabled={false}
           onClick={ () => {
-            RegistrationPage()
+            console.log("Registration button was clicked");
+            navigate('/register', { replace: true })
           }
           }
         />
