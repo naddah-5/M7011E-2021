@@ -1,6 +1,6 @@
 
 
-export function login(username, password) {
+export function loginQuery(username, password) {
     async () => {
         const res = await fetch("http://localhost:4000/graphql", {
             method: "POST",
@@ -19,6 +19,8 @@ export function login(username, password) {
             })
         });
         let result = await res.json();
-        return result.data.login;
+        return result;
     }
 }
+
+

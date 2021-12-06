@@ -4,11 +4,14 @@ const bodyParser = require('body-parser');
 const graphqlHttp  = require('express-graphql').graphqlHTTP;
 const mongoose = require('mongoose');
 const authentication = require('./middleware/authentication');
+const cors = require('cors')
 
 const graphqlBuildSchema = require('./graphql/schemas/index');
 const graphqlResolvers = require('./graphql/resolvers/index');
 
 const app = express();
+
+app.use(cors())
 
 
 app.use(express.urlencoded({
