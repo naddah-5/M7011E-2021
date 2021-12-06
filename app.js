@@ -32,11 +32,8 @@ app.use(authentication);
 
 app.use(cors())
 
-app.get('/products/:id', function (req, res, next) {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
 
-app.use('/graphql', cors, graphqlHttp({
+app.use('/graphql', graphqlHttp({
   schema: graphqlBuildSchema,
   rootValue: graphqlResolvers,
   graphiql: true
