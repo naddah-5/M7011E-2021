@@ -33,7 +33,7 @@ app.use(authentication);
 app.use(cors())
 
 
-app.use('/graphql', graphqlHttp({
+app.use('/graphql', cors(), graphqlHttp({
   schema: graphqlBuildSchema,
   rootValue: graphqlResolvers,
   graphiql: true

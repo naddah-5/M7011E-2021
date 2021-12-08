@@ -1,9 +1,12 @@
-import React, {useState} from "react";
-import InputField from "./InputField";
-import SubmitButton from "./SubmitButton";
-import UserStore from "../stores/UserStore";
+import React, {useState} from        "react";
+import InputField from               "./InputField";
+import SubmitButton from             "./SubmitButton";
+import { useNavigate } from          'react-router-dom'
+import UserStore from                "../stores/UserStore";
 
 function RegistrationForm(){
+    const navigate = useNavigate();
+
     const[username, setUsername] = useState("");
     const[firstName, setFirstName] = useState("");
     const[lastName, setLastName] = useState("");
@@ -57,23 +60,25 @@ function RegistrationForm(){
             console.log("submitted address: " + address);
             
             const res = await fetch("http://localhost:4000/graphql", {
-                method: "UPDATE",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body:JSON.stringify({
-                    query:`{
-                        createUser(
-                            email:"${username}",
-                            password:"${password}",
-                            lastname:"${lastName}",
-                            birthDate:"${birthDate}",
-                            address:"${address}"
-
-                        ){
-                            email
+                    query:`
+                    mutation {
+                        createUser(userInput: {
+                          email:"${username}",
+                          password: "${password}",
+                          firstName: "${firstName}",
+                          lastName:"${lastName}",
+                          birthDate: "${birthDate}",
+                          address: "${address}",
+                      
+                        }) {
+                          email
                         }
-                    }`
+                      }`
                 })
             });
             let result = await res.json();
@@ -82,7 +87,7 @@ function RegistrationForm(){
                 console.log("Login successful");
                 alert("Registration complete!");
                 resetForm();
-                buttonDisabled(false);
+                setButtonDisabled(false);
 
             }
         }
@@ -143,6 +148,13 @@ function RegistrationForm(){
                 text="Register"
                 disabled={buttonDisabled}
                 onClick={ () => registerUser() }
+            />
+            <SubmitButton
+                text="Back"
+                onClick={
+                    () => navigate('/', { replace: true })
+
+                }
             />
         </div>
     );
