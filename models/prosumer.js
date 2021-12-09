@@ -23,7 +23,7 @@ const prosumerSchema = new Schema({
     buffer: {
         type: Number,
         required: true
-    }
+    }  
 
 });
 
