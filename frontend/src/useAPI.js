@@ -1,26 +1,27 @@
+import React from "react";
 
-
-export function loginQuery(username, password) {
-    async () => {
-        const res = await fetch("http://localhost:4000/graphql", {
-            method: "POST",
-            headers: {
+export default async function apiGet() {
+    try {
+      const response = await fetch("http://localhost:4000/graphql", {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
+          },
+          body:JSON.stringify({
             query:`{
-                login(
-                email:"${username}",
-                password:"${password}"
-                ){
-                token
-                userId
-                }}`
-            })
-        });
-        let result = await res.json();
-        return result;
+              simEvents {
+                _id
+                windSpeed
+                electricityDemand
+                price
+                date
+              }}`
+      })
+    });
+
+    return await response.json();
     }
-}
-
-
+    catch(e) {
+        console.log(e);
+      }
+};

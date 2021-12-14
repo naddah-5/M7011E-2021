@@ -14,7 +14,7 @@ type Prosumer {
 type SimulatorEvent {
   _id: ID!
   windSpeed: Float!
-  electricityConsumption: Float!
+  electricityDemand: Float!
   price: Float!
   date: String!
 }
