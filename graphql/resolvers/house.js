@@ -3,10 +3,11 @@ const User = require("../../models/user");
 
 module.exports = {
     createHouse: async (args, req) => {
-        if(!req.isAuthenticated){
+        console.log("Entered create house function.")
+        /*if(!req.isAuthenticated){
             console.log("Not authorized.")
             throw new Error("Not authorized");
-            }
+            }*/
         try{
             //const fetchedUser = await User.findOne({_id: args.houseInput.owner});
             const house = new House({
