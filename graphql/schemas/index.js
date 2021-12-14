@@ -4,12 +4,7 @@ module.exports = buildSchema(`
 type House {
   _id: ID!
   address: String!
-  owner: User!
-  windTurbineId: WindTurbine
-  battery: Battery
-  consumption: Float
-  minConsumption: Float
-  maxConsumption: Float
+  owner: String!
 }
 
 type WindTurbine {
@@ -70,10 +65,7 @@ input UserInput {
 
 input HouseInput {
   address: String!
-  owner: ID!
-  consumption: Float
-  minConsumption: Float
-  maxConsumption: Float
+  owner: String!
 }
 
 input WindTurbineInput {
@@ -116,7 +108,7 @@ type RootMutation {
   createProsumer(prosumerInput: ProsumerInput): Prosumer!
   deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
   createHouse(houseInput: HouseInput): House
-  deleteHouse(houseInput: HouseInput): Boolean
+  deleteHouse(houseInput: HouseInput): Boolean!
 }
 
 schema {

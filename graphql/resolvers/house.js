@@ -4,21 +4,20 @@ const User = require("../../models/user");
 module.exports = {
     createHouse: async (args, req) => {
         if(!req.isAuthenticated){
+            console.log("Not authorized.")
             throw new Error("Not authorized");
-        }
+            }
         try{
-            const fetchedUser = await User.findOne({_id: req.userId});
+            //const fetchedUser = await User.findOne({_id: args.houseInput.owner});
             const house = new House({
                 address: args.houseInput.address,
-                owner: fetchedUser,
-                consumption: args.houseInput.consumption,
-                minConsumption: args.houseInput.minConsumption,
-                maxConsumption: args.houseInput.maxConsumption
+                owner: args.houseInput.owner
             });
             const result = await house.save();
-            return result;
+            return {...result._doc, address: result.address, owner: result.owner, _id: result._id};
         }
         catch (e) {
+            console.log("Create house failed.")
             throw (e);
         }
     },

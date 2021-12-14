@@ -8,10 +8,9 @@ const houseSchema = new Schema({
         required: true
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: true
-    },
+    },/*
     windTurbineId: {
         type: Schema.Types.ObjectId,
         ref: "WindTurbine"
@@ -22,16 +21,13 @@ const houseSchema = new Schema({
     },
     consumption: {
         type: Number,
-        default: 50
     },
     minConsumption: {
         type: Number,
-        default: 0
     },
     maxConsumption: {
         type: Number,
-        default: 100
-    }
+    }*/
 })
 
 module.exports = mongoose.model("House", houseSchema);
