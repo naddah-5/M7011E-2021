@@ -9,11 +9,16 @@ const houseSchema = new Schema({
     },
     owner: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     windTurbineId: {
         type: Schema.Types.ObjectId,
         ref: "WindTurbine"
+    },
+    batteryId: {
+        type: Schema.Types.ObjectId,
+        ref: "Battery"
     },
     consumption: {
         type: Number,

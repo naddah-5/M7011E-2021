@@ -5,11 +5,13 @@ const Schema = mongoose.Schema;
 const windTurbineSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     house: {
         type: Schema.Types.ObjectId,
-        ref: "House"
+        ref: "House",
+        required: true
     },
     efficiency: {
         type: Number,

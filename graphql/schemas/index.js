@@ -5,12 +5,25 @@ type House {
   _id: ID!
   address: String!
   owner: User!
-  windTurbine: WindTurbine
+  windTurbineId: WindTurbine
+  battery: Battery
   consumption: Float
   minConsumption: Float
   maxConsumption: Float
 }
 
+type WindTurbine {
+  _id: ID!
+  owner: User!
+  house: House!
+  efficiency: Float
+}
+
+type Battery {
+  _id: ID!
+  house: House!
+  capacity: Float
+}
 
 type Prosumer {
   _id: ID!
@@ -58,10 +71,20 @@ input UserInput {
 input HouseInput {
   address: String!
   owner: ID!
-  windTurbine: ID!
   consumption: Float
   minConsumption: Float
   maxConsumption: Float
+}
+
+input WindTurbineInput {
+  owner: ID!
+  house: ID!
+  efficiency: Float
+}
+
+input BatteryInput {
+  house: ID!
+  capacity: Float
 }
 
 input SimulatorEventInput {
@@ -92,7 +115,8 @@ type RootMutation {
   createUser(userInput: UserInput): User
   createProsumer(prosumerInput: ProsumerInput): Prosumer!
   deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
-
+  createHouse(houseInput: HouseInput): House
+  deleteHouse(houseInput: HouseInput): Boolean
 }
 
 schema {
