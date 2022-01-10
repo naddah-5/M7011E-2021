@@ -4,8 +4,6 @@ module.exports = buildSchema(`
 
 type Prosumer {
   _id: ID!
-  simulatorEvent: SimulatorEvent!
-  user: User!
   production: Float!
   netProduction: Float!
   buffer: Float!
@@ -27,7 +25,7 @@ type User {
   lastName: String
   birthDate: String
   address: String
-  createdEvents: [SimulatorEvent!]
+  picture: String
 }
 
 type AuthData {
@@ -54,7 +52,6 @@ input SimulatorEventInput {
 
 
 input ProsumerInput {
-  eventId: ID!
   production: Float!
   netProduction: Float!
   buffer: Float!
@@ -62,8 +59,8 @@ input ProsumerInput {
 
 
 type RootQuery {
-  simEvents: [SimulatorEvent!]!
-  prosumerSimEvents: [Prosumer!]!
+  simEvents: SimulatorEvent!
+  prosumerEvents: Prosumer!
   login(email: String!, password: String!): AuthData!
   
 }
@@ -71,7 +68,7 @@ type RootQuery {
 type RootMutation {
   createSimEvent(simulatorEventInput: SimulatorEventInput): SimulatorEvent
   createUser(userInput: UserInput): User
-  createProsumer(prosumerInput: ProsumerInput): Prosumer!
+  createProsumer(prosumerInput: ProsumerInput): Prosumer
   deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
 
 }

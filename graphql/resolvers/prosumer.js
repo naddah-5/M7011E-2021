@@ -1,29 +1,40 @@
 const Prosumer = require('../../models/prosumer');
 const SimulatorEvent = require('../../models/simulatorEvent');
-const {singleSimEvent,user,returnSimEvent} = require('./helper');
+const {returnProsumerEvent} = require('./helper');
 
 
 module.exports = {
-    createProsumer: async (args,req) => {
-        if(!req.isAuthenticated) {
-            throw new Error('Not authorized!');
+    prosumerEvents: async (req) => {
+        //if(!req.isAuthenticated) {
+            //throw new Error('Not authorized!');
+        //}
+        try {
+            const prosumerEvent = await Prosumer.findOne({sort: {'createdAt' : -1}})
+            //return returnProsumerEvent(prosumerEvent);
+            return {...prosumerEvent._doc
+            };
+        } catch(err) {
+            throw err;
         }
-        const fetchedEvent = await SimulatorEvent.findOne({_id: args.prosumerInput.eventId});
-        const prosumer = new Prosumer({
-            simulatorEvent: fetchedEvent,
-            user: req.userId,
-            production: args.prosumerInput.production,
-            netProduction: args.prosumerInput.netProduction,
-            buffer: args.prosumerInput.buffer
-        });
-        const result = await prosumer.save();
-        return {...result._doc,
-            _id: result.id,
-            simulatorEvent: singleSimEvent.bind(this,prosumer._doc.event),
-            user: user.bind(this, prosumer._doc.user)
-        };
     },
-    prosumerSimEvents: async (req) => {
+    createProsumer: async (args) => {
+        const prosumer = new Prosumer({
+            production: +args.prosumerInput.production,
+            netProduction: +args.prosumerInput.netProduction,
+            buffer: +args.prosumerInput.buffer,
+        });
+        let createdProsumerEvent;
+        try {
+            const result = await prosumer.save()
+      
+            createdProsumerEvent = returnProsumerEvent(result);
+
+            return createdProsumerEvent;
+        } catch(err) {
+            throw err;
+        }        
+    }
+    /*prosumerSimEvents: async (req) => {
         if(!req.isAuthenticated) {
             throw new Error('Not authorized!');
         }
@@ -39,7 +50,7 @@ module.exports = {
         } catch(err) {
             throw err;
         }
-    },
+    }, 
     deleteProsumerSimEvent: async (args,req) => {
         if(!req.isAuthenticated) {
             throw new Error('Not authorized!');
@@ -52,6 +63,6 @@ module.exports = {
         } catch(err) {
             throw err;
         }  
-    },
+    }, */
 
-};
+}; 

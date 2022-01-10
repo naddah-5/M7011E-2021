@@ -1,6 +1,6 @@
 import React from "react";
 
-export default async function apiGet() {
+export async function apiGetSimData() {
     try {
       const response = await fetch("http://localhost:4000/graphql", {
           method: "POST",
@@ -24,4 +24,29 @@ export default async function apiGet() {
     catch(e) {
         console.log(e);
       }
+};
+
+export async function apiGetProsumerData() {
+  try {
+    const response = await fetch("http://localhost:4000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          query:`{
+            prosumerEvents {
+              _id
+              production
+              netProduction
+              buffer
+            }}`
+    })
+  });
+
+  return await response.json();
+  }
+  catch(e) {
+      console.log(e);
+    }
 };

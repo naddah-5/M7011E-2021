@@ -27,12 +27,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    createdEvents: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'SimulatorEvent'
-        }
-    ]
+    picture: {
+        type: String,
+        unique: true
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);

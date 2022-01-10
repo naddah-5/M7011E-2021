@@ -1,4 +1,5 @@
 const SimulatorEvent = require('../../models/simulatorEvent');
+const Prosumer = require('../../models/prosumer');
 const User = require('../../models/user');
 
 
@@ -7,7 +8,12 @@ const returnSimEvent = simulatorEvent => {
     return {...simulatorEvent._doc, 
         _id: simulatorEvent.id,
         date: new Date(simulatorEvent._doc.date).toISOString()};
-        //creator: user.bind(this, simulatorEvent.creator)};
+};
+
+const returnProsumerEvent = prosumer => {
+    return {...prosumer._doc, 
+        _id: prosumer.id,
+        date: new Date(prosumer._doc.date).toISOString()};
 };
 
 const simEvents = async eventId => {
@@ -26,8 +32,8 @@ const user = async userId => {
     try {
         const user = await User.findById(userId)
         return {...user._doc,
-            _id: user.id,
-            createdEvents: simEvents.bind(this, user._doc.createdEvents)};
+            _id: user.id};
+            
     }
     catch(err) {
         throw err;
@@ -46,3 +52,4 @@ const singleSimEvent = async eventId => {
 exports.user = user;
 exports.singleSimEvent = singleSimEvent;
 exports.returnSimEvent = returnSimEvent;
+exports.returnProsumerEvent = returnProsumerEvent;

@@ -4,14 +4,6 @@ const Schema = mongoose.Schema;
 
 const prosumerSchema = new Schema({
     
-    simulatorEvent: {
-        type: Schema.Types.ObjectId,
-        ref: 'SimulatorEvent'
-    },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
     production: {
         type: Number,
         required: true
@@ -23,8 +15,10 @@ const prosumerSchema = new Schema({
     buffer: {
         type: Number,
         required: true
-    }
-
-});
+    },
+    
+  },
+  {timestamps: true}
+);
 
 module.exports = mongoose.model('Prosumer', prosumerSchema);

@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import EventList from "./EventList";
-import apiGet from "./useAPI";
+import {apiGetSimData, apiGetProsumerData} from "./useAPI";
 
 
 function Home() {
-    const [result, setResult] = useState([]);
+    const [simEventResult, setEventResult] = useState([]);
+    const [houseResult, setHouseResult] = useState([]);
 
     useEffect(async () => {
-        let result_ = await apiGet();
-        console.log(result_);
-        setResult(result_);
+        let simEventResult_ = await apiGetSimData();
+        let houseResult_ = await apiGetProsumerData();
+        console.log("fetched sim data", simEventResult_.data.simEvents);
+        console.log("fetched house data", houseResult_.data.prosumerEvents);
+        setEventResult(simEventResult_.data.simEvents);
+        setHouseResult(houseResult_.data.prosumerEvents);
     }, []);
 
   return ( 
       <div className="home">
-          <EventList events={result} title="Current simulator data"/>
+          <EventList simEvent={simEventResult} house={houseResult}/>
       </div>
    );
 } 

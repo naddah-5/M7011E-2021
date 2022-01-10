@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Trirong");
+
+.event-view h2 {
+    font-family: "Tirong";
+    color: black;
+    margin-bottom: 14px;
+    font-size: 20px;
+}
+
+.event-view h1 {
+    font-size: 20px;
+}
+
+.event-view {
+    padding: 10px 16px;
+    margin: 20px 0;
+    border-bottom: 1px solid #fafafa;
+  }
+
+  .event-view:hover {
+    box-shadow: 1px 3px 5px rgba(0, 0, 0.1);
+  }
+
+

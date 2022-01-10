@@ -5,7 +5,8 @@
     font-family: "Audiowide";
     color: rgb(56, 114, 54);
   }
-  .navbar {
+  .navbar ul {
+    list-style: none;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -16,7 +17,9 @@
   .navbar h1 {
     color: #77df91;
     font-size: xx-large;
+    
   }
+  
 
 
   .navbar .links {
@@ -29,27 +32,21 @@
     padding: 20px;
     font-size: x-large;
   }
-  .navbar a:hover {
+
+  .navbar a:hover
+   {
     color: #133;
   }
+
+  .navbar a:active,
+  .navbar a.active {
+    color: #133;
+  }
+
+
   .content {
     max-width: 600px;
     margin: 40px auto;
     padding: 20px;
   }
 
-  .event-view {
-    padding: 10px 16px;
-    margin: 20px 0;
-    border-bottom: 1px solid #fafafa;
-  }
-
-  .event-view:hover {
-    box-shadow: 1px 3px 5px rgba(0, 0, 0.1);
-  }
-
-  .event-view h2 {
-    font-size: 20px;
-    color: #77df91;
-    margin-bottom: 14px;
-  }
