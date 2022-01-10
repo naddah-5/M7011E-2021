@@ -12,6 +12,7 @@ module.exports = {
             //const fetchedUser = await User.findOne({_id: args.houseInput.owner});
             const house = new House({
                 address: args.houseInput.address,
+                //note that owner is supposed to be the prosumer ID not the name
                 owner: args.houseInput.owner
             });
             const result = await house.save();

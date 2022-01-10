@@ -7,6 +7,7 @@ const houseSchema = new Schema({
         type: String,
         required: true
     },
+    //note that this is supposed to be the owners prosumer ID not the name
     owner: {
         type: String,
         required: true
