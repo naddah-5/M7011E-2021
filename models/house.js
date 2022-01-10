@@ -12,21 +12,22 @@ const houseSchema = new Schema({
         required: true
     },
     windTurbineId: {
-        type: Schema.Types.ObjectId,
-        ref: "WindTurbine"
+        type: String
     },
     batteryId: {
-        type: Schema.Types.ObjectId,
-        ref: "Battery"
+        type: String
     },
     consumption: {
         type: Number,
+        default: 100
     },
     minConsumption: {
         type: Number,
+        default: 0
     },
     maxConsumption: {
         type: Number,
+        default: 1000
     }
 })
 

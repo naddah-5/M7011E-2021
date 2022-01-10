@@ -5,6 +5,11 @@ type House {
   _id: ID!
   address: String!
   owner: String!
+  windTurbineId: String
+  batteryId: String
+  consumption: Float
+  minConsumption: Float
+  maxConsumption: Float
 }
 
 type WindTurbine {
@@ -18,6 +23,7 @@ type Battery {
   _id: ID!
   house: House!
   capacity: Float
+  maxCapacity: Float
 }
 
 type Prosumer {
