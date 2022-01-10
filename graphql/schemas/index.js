@@ -4,9 +4,9 @@ module.exports = buildSchema(`
 type House {
   _id: ID!
   address: String!
-  owner: String!
-  windTurbineId: String
-  batteryId: String
+  ownerID: String!
+  windTurbineID: String
+  batteryID: String
   consumption: Float
   minConsumption: Float
   maxConsumption: Float
@@ -14,14 +14,14 @@ type House {
 
 type WindTurbine {
   _id: ID!
-  owner: User!
-  house: House!
+  ownerID: String!
+  houseID: String!
   efficiency: Float
 }
 
 type Battery {
   _id: ID!
-  house: House!
+  houseID: House!
   capacity: Float
   maxCapacity: Float
 }
@@ -71,18 +71,19 @@ input UserInput {
 
 input HouseInput {
   address: String!
-  owner: String!
+  ownerID: String!
 }
 
 input WindTurbineInput {
-  owner: ID!
-  house: ID!
+  ownerID: String!
+  houseID: String!
   efficiency: Float
 }
 
 input BatteryInput {
-  house: ID!
+  houseID: String!
   capacity: Float
+  maxCapacity: Float
 }
 
 input SimulatorEventInput {

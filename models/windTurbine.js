@@ -3,12 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const windTurbineSchema = new Schema({
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
+    ownerID: {
+        type: String,
         required: true
     },
-    house: {
+    houseID: {
         type: Schema.Types.ObjectId,
         ref: "House",
         required: true
