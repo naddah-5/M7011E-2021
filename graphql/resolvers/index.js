@@ -10,7 +10,8 @@ const roootResolver = {
     ...simEventsResolver,
     ...prosumerResolver,
     ...houseResolver,
-    ...windTurbineResolver
+    ...windTurbineResolver,
+    ...batteryResolver
 };
 
 module.exports = roootResolver;
