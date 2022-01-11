@@ -24,8 +24,7 @@ const userSchema = new Schema({
         required: true
     },
     address: {
-        type: String,
-        required: true
+        type: String
     },
     createdEvents: [
         {

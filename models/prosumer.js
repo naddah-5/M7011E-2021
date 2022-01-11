@@ -9,21 +9,17 @@ const prosumerSchema = new Schema({
         ref: 'SimulatorEvent'
     },
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        type: String,
+        required: true
     },
     production: {
         type: Number,
-        required: true
+        default: 0
     },
     netProduction: {
         type: Number,
-        required: true
-    },
-    buffer: {
-        type: Number,
-        required: true
-    }  
+        default: 0
+    }
 
 });
 

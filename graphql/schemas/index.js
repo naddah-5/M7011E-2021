@@ -29,10 +29,9 @@ type Battery {
 type Prosumer {
   _id: ID!
   simulatorEvent: SimulatorEvent!
-  user: User!
-  production: Float!
-  netProduction: Float!
-  buffer: Float!
+  user: String!
+  production: Float
+  netProduction: Float
 }
 
 type SimulatorEvent {
@@ -46,10 +45,10 @@ type SimulatorEvent {
 type User {
   _id: ID!
   email: String!
-  password: String
-  firstName: String
-  lastName: String
-  birthDate: String
+  password: String!
+  firstName: String!
+  lastName: String!
+  birthDate: String!
   address: String
   createdEvents: [SimulatorEvent!]
 }
@@ -96,9 +95,8 @@ input SimulatorEventInput {
 
 input ProsumerInput {
   eventId: ID!
-  production: Float!
-  netProduction: Float!
-  buffer: Float!
+  production: Float
+  netProduction: Float
 }
 
 

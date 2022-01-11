@@ -8,14 +8,14 @@ const houseSchema = new Schema({
         required: true
     },
     //note that this is supposed to be the owners prosumer ID not the name
-    owner: {
+    ownerID: {
         type: String,
         required: true
     },
-    windTurbineId: {
+    windTurbineID: {
         type: String
     },
-    batteryId: {
+    batteryID: {
         type: String
     },
     consumption: {
