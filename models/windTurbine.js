@@ -8,8 +8,7 @@ const windTurbineSchema = new Schema({
         required: true
     },
     houseID: {
-        type: Schema.Types.ObjectId,
-        ref: "House",
+        type: String,
         required: true
     },
     efficiency: {

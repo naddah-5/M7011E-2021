@@ -11,9 +11,9 @@ module.exports = {
         try{
             //const fetchedUser = await User.findOne({_id: args.houseInput.owner});
             const house = new House({
-                address: args.houseInput.address,
+                address: req.houseInput.address,
                 //note that owner is supposed to be the prosumer ID not the name
-                ownerID: args.houseInput.ownerID
+                ownerID: req.houseInput.ownerID
             });
             const result = await house.save();
             return {...result._doc, address: result.address, owner: result.owner, _id: result._id};
@@ -28,8 +28,8 @@ module.exports = {
             throw new Error ("Not authorized");
         }
         try {
-            const fetchedOwner = await User.findOne({_id: req.userId});
-            const house = await House.findOne({address: args.houseInput.address, owner: fetchedOwner});
+            const fetchedOwner = await User.findOne({_id: req.houseInput.ownerID});
+            const house = await House.findOne({address: req.houseInput.address, owner: fetchedOwner.ownerID});
             const result = await House.deleteOne({_id: house._id});
             
             //acknowledged is a property of the deleteOne return object

@@ -8,10 +8,10 @@ module.exports = {
             throw new Error("Not authorized");
         }
         try {
-            const fetchedUser = await User.findOne({_id: req.userId})
-            const fetchedHouse = await House.findOne({owner: fetchedUser, address: args.createTurbineInput.address});
-            if(!fetchedHouse){
-                throw new Error ("Could not find specified house.");
+            const fetchedUser = await User.findOne({_id: req.windTurbineInput.ownerID})
+            const fetchedHouse = await House.findOne({ownerID: req.windTurbineInput.ownerID, address: req.windTurbineInput.address});
+            if(!fetchedHouse || !fetchedUser){
+                throw new Error ("Could not find specified house or user.");
             }
             
         }
