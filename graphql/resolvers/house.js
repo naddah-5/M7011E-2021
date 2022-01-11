@@ -29,7 +29,7 @@ module.exports = {
         }
         try {
             const fetchedOwner = await User.findOne({_id: req.houseInput.ownerID});
-            const house = await House.findOne({address: req.houseInput.address, owner: fetchedOwner.ownerID});
+            const house = await House.findOne({address: req.houseInput.address, owner: fetchedOwner._id});
             const result = await House.deleteOne({_id: house._id});
             
             //acknowledged is a property of the deleteOne return object
