@@ -1,6 +1,7 @@
 const WindTurbine = require("../../models/windTurbine");
 const House = require("../../models/house");
 const User = require("../../models/user");
+const windTurbine = require("../../models/windTurbine");
 
 module.exports = {
     createWindTurbine: async (args, req) => {
@@ -8,20 +9,28 @@ module.exports = {
             throw new Error("Not authorized");
         }*/
         try {
-            const fetchedUser = await User.findOne({_id: req.windTurbineInput.ownerID})
-            const fetchedHouse = await House.findOne({ownerID: req.windTurbineInput.ownerID, address: req.windTurbineInput.address});
+            const fetchedUser = await User.findOne({_id: args.windTurbineInput.ownerID})
+            const fetchedHouse = await House.findOne({ownerID: args.windTurbineInput.ownerID, address: args.windTurbineInput.address});
             if(!fetchedHouse || !fetchedUser){
                 throw new Error ("Could not find specified house or user.");
             }
             else if (fetchedHouse.windTurbineID) {
                 //retrieve and store the windturbine quantity then increment it and update the value stored in the database
-                let windTurbineQuantity = await WindTurbine.findOne({ownerID: fetchedHouse.windTurbineID});
-                let newQuantity = windTurbineQuantity + 1;
+                const windTurbineQuantity = await WindTurbine.findOne({ownerID: fetchedHouse.windTurbineID});
+                const newQuantity = windTurbineQuantity + 1;
                 const increment = await WindTurbine.updateOne({_id: fetchedHouse.windTurbineID}, {quantity: newQuantity})
                 /*
                 acknowledged is a boolen field in the return object from updateOne
                 */
                 return increment.acknowledged
+            }
+            else {
+                const createdWindTurbine = new WindTurbine({
+                    ownerID: fetchedUser._id,
+                    houseID: fetchedHouse._id
+                });
+                const result = await windTurbine.save();
+                return {...result._doc, ownerID: result.ownerID, houseID: result.houseID}
             }
             
         }
@@ -29,14 +38,14 @@ module.exports = {
             throw (e);
         }
     },
-    deleteWindTurbine: async (req) => {
+    deleteWindTurbine: async (req, args) => {
         /*if(!req.isAuthenticated){
             throw new Error ("Not authorized");
         }
         */
         try {
-            const fetchedUser = await User.findOne({_id: req.windTurbineInput.ownerID})
-            const fetchedHouse = await House.findOne({ownerID: req.windTurbineInput.ownerID, address: req.windTurbineInput.address})
+            const fetchedUser = await User.findOne({_id: args.windTurbineInput.ownerID})
+            const fetchedHouse = await House.findOne({ownerID: args.windTurbineInput.ownerID, address: args.windTurbineInput.address})
             if(!fetchedHouse || !fetchedUser){
                 throw new Error ("Could not find specified house or user,")
             }

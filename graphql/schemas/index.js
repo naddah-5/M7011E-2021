@@ -22,7 +22,7 @@ type WindTurbine {
 
 type Battery {
   _id: ID!
-  houseID: House!
+  houseID: String!
   capacity: Float
   maxCapacity: Float
 }
@@ -82,8 +82,6 @@ input WindTurbineInput {
 
 input BatteryInput {
   houseID: String!
-  capacity: Float
-  maxCapacity: Float
 }
 
 input SimulatorEventInput {
@@ -115,7 +113,7 @@ type RootMutation {
   deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
   createHouse(houseInput: HouseInput): House
   deleteHouse(houseInput: HouseInput): Boolean!
-  createWindTurbine(windTurbineInput: WindTurbineInput): Boolean!
+  createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
   deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean!
 }
 
