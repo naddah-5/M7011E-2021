@@ -17,6 +17,7 @@ type WindTurbine {
   ownerID: String!
   houseID: String!
   efficiency: Float
+  quantity: Float
 }
 
 type Battery {
@@ -114,7 +115,8 @@ type RootMutation {
   deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
   createHouse(houseInput: HouseInput): House
   deleteHouse(houseInput: HouseInput): Boolean!
-  createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
+  createWindTurbine(windTurbineInput: WindTurbineInput): Boolean!
+  deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean!
 }
 
 schema {

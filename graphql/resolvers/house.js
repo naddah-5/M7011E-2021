@@ -24,9 +24,10 @@ module.exports = {
         }
     },
     deleteHouse: async (args, req) => {
-        if(!req.isAuthenticated) {
+        /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
         }
+        */
         try {
             const fetchedOwner = await User.findOne({_id: req.houseInput.ownerID});
             const house = await House.findOne({address: req.houseInput.address, owner: fetchedOwner._id});
