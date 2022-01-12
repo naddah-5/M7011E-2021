@@ -35,11 +35,7 @@ module.exports = {
             
             //acknowledged is a property of the deleteOne return object
             //if the operation was successful it is set to true.
-            if(result.acknowledged === true)
-                return true;
-            else {
-                return false;
-            }
+            return result.acknowledged;
         }
         catch(e) {
             throw (e);

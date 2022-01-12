@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const powerPlantSchema = new Schema({
     ownerID: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
+        type: String,
+        require: true
     },
     region: {
         type: String,

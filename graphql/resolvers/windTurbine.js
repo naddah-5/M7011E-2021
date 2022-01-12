@@ -45,12 +45,7 @@ module.exports = {
                 let oldQuantity = fetchedWindTurbine.quantity;
                 let newQuantity = oldQuantity - 1;
                 const decrement = await WindTurbine.updateOne({_id: fetchedWindTurbine._id}, {quantity: newQuantity});
-                if(decrement.acknowledged) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return decrement.acknowledged;
             }
             else {
                 const deleteOperation = await WindTurbine.deleteOne({_id: fetchedWindTurbine._id});
