@@ -2,6 +2,7 @@ import Navbar from './Navbar';
 import Home from './Home';
 import Profile from './Profile';
 import StartPage from './StartPage';
+import RegistrationPage from './RegistrationPage'
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import React from 'react';
 

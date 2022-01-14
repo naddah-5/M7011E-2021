@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const graphqlHttp  = require('express-graphql').graphqlHTTP;
 const mongoose = require('mongoose');
@@ -12,6 +13,8 @@ const graphqlResolvers = require('./graphql/resolvers/index');
 const app = express();
 
 app.use(cors())
+
+
 
 
 app.use(express.urlencoded({
@@ -30,8 +33,10 @@ app.set('view engine', 'html');
 
 app.use(authentication);
 
+app.use(cors())
 
-app.use('/graphql', graphqlHttp({
+
+app.use('/graphql', cors(), graphqlHttp({
   schema: graphqlBuildSchema,
   rootValue: graphqlResolvers,
   graphiql: true

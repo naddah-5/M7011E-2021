@@ -1,6 +1,24 @@
 const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
+type House {
+  _id: ID!
+  address: String!
+  owner: String!
+}
+
+type WindTurbine {
+  _id: ID!
+  owner: User!
+  house: House!
+  efficiency: Float
+}
+
+type Battery {
+  _id: ID!
+  house: House!
+  capacity: Float
+}
 
 type Prosumer {
   _id: ID!
@@ -62,6 +80,22 @@ input UserInput {
   lastName: String
   birthDate: String
   address: String
+}
+
+input HouseInput {
+  address: String!
+  owner: String!
+}
+
+input WindTurbineInput {
+  owner: ID!
+  house: ID!
+  efficiency: Float
+}
+
+input BatteryInput {
+  house: ID!
+  capacity: Float
 }
 
 input SimulatorEventInput {

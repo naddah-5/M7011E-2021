@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 /*import Express from 'express';
 import bodyParser from 'body-parser';*/
 import InputField from './InputField';
@@ -6,10 +6,9 @@ import SubmitButton from './SubmitButton';
 import UserStore from '../stores/UserStore';
 
 function LoginForm(props) {
-  const [username,setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
-
 
   const resetForm = () => {
     setUsername("");
@@ -24,17 +23,20 @@ function LoginForm(props) {
       alert("Incorrect username or password")
       return(false);
     }
-    if(!password) {
+    else if(!password) {
       resetForm();
       alert("Incorrect username or password")
     return(false);
     }
 
     //disable the login button so that we don't flood the api with login requests 
-    setButtonDisabled(false);
+    setButtonDisabled(true);
     try {
+      // ONLY FOR TESTING!!!
       console.log(username);
       console.log(password);
+      //
+
       const res = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
@@ -75,6 +77,8 @@ function LoginForm(props) {
 
 
         UserStore.loading = false;
+        setButtonDisabled(false);
+        props.onSuccess();
       }
       else if(res.status === 500) {
         resetForm();

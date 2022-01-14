@@ -43,8 +43,15 @@ const houseSchema = new Schema({
         default: 0,
         min: min,
         max: max
+    },
+    production: {
+        type: Number,
+        default: 0
+    },
+    netProduction: {
+        type: Number,
+        default: 0
     }
-
 })
 
 module.exports = mongoose.model("House", houseSchema);
