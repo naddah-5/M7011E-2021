@@ -10,19 +10,11 @@ const returnSimEvent = simulatorEvent => {
         date: new Date(simulatorEvent._doc.date).toISOString()};
 };
 
-const returnProsumerEvent = prosumer => {
-    return {...prosumer._doc, 
-        _id: prosumer.id,
-        date: new Date(prosumer._doc.date).toISOString()};
-};
-
-const simEvents = async eventId => {
+const prosumersRet = async prosumerId => {
     try {
-        const simEvents = await SimulatorEvent.find({_id: {$in: eventId}})
-        simEvents.map(simulatorEvent => {
-        return returnSimEvent(simulatorEvent);
-    });
-    return simEvents;
+        const prosumers_ = await Prosumer.findById(prosumerId);
+        
+        return returnProsumerEvent(prosumers_);
   } catch(err) {
       throw err;
   }
@@ -32,12 +24,18 @@ const user = async userId => {
     try {
         const user = await User.findById(userId)
         return {...user._doc,
-            _id: user.id};
-            
+            _id: user.id,
+            prosumers: prosumersRet.bind(this, user._doc.prosumers)};     
     }
     catch(err) {
         throw err;
     }
+};
+
+const returnProsumerEvent = prosumer => {
+    return {...prosumer._doc, 
+        _id: prosumer.id,
+        user: user.bind(this, prosumer.user)};
 };
 
 const singleSimEvent = async eventId => {

@@ -5,20 +5,20 @@ import {apiGetSimData, apiGetProsumerData} from "./useAPI";
 
 function Home() {
     const [simEventResult, setEventResult] = useState([]);
-    const [houseResult, setHouseResult] = useState([]);
+    const [prosumerResult, setProsumerResult] = useState([]);
 
     useEffect(async () => {
         let simEventResult_ = await apiGetSimData();
-        let houseResult_ = await apiGetProsumerData();
+        let prosumerResult_ = await apiGetProsumerData();
         console.log("fetched sim data", simEventResult_.data.simEvents);
-        console.log("fetched house data", houseResult_.data.prosumerEvents);
+        console.log("fetched house data", prosumerResult_.data.prosumerEvents);
         setEventResult(simEventResult_.data.simEvents);
-        setHouseResult(houseResult_.data.prosumerEvents);
+        setProsumerResult(prosumerResult_.data.prosumerEvents);
     }, []);
 
   return ( 
       <div className="home">
-          <EventList simEvent={simEventResult} house={houseResult}/>
+          <EventList simEvent={simEventResult} house={prosumerResult}/>
       </div>
    );
 } 

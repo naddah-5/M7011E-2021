@@ -6,7 +6,7 @@ import InputField from './components/InputField';
  export default function EventList({simEvent, house}) {
 
     
-    const [electricitySell,setElectricitySell] = useState("");
+    /* const [electricitySell,setElectricitySell] = useState("");
     const [electricityBuy,setElectricityBuy] = useState("");
     const [sellButtonDisabled, setSellButtonDisabled] = useState(false);
     const [buyButtonDisabled, setBuyButtonDisabled] = useState(false);
@@ -16,7 +16,7 @@ import InputField from './components/InputField';
         setElectricitySell("");
         setElectricityBuy("");
         setButtonDisabled(false);
-    }    
+    }  */  
 
     const [ev, setEvents] = useState([]);
     useEffect(() => {
@@ -31,7 +31,20 @@ import InputField from './components/InputField';
     }, [house]);
 
 
-    
+  /* const setHouse = async () => {
+        // if either the username or password is empty we wont bother handling the log in request
+        if(electricitySell.trim().length === 0) {
+          resetForm();
+          alert("Incorrect selling ratio")
+          return(false);
+        }
+        if(electricityBuy.trim().length === 0) {
+          resetForm();
+          alert("Incorrect buying ratio")
+        return(false);
+        }
+
+        setButtonDisabled(false); */
 
 
     return ( 
@@ -58,38 +71,6 @@ import InputField from './components/InputField';
                     <h2>{ho.buffer} kW/h</h2>
                 </div>
 
-                    <div className="form-control">
-                        <label htmlFor="market-sell">Sell to market</label>
-                        <InputField
-                        type="market-sell"
-                        placeholder=""
-                        value={electricitySell ? electricitySell : ""}
-                        onChange={ (val) => setElectricitySell(val) }
-                        />
-                    </div>                        
-                    <div>
-                        <SubmitButton
-                        text="Sell amount"
-                        disabled={sellButtonDisabled}
-                        onClick={ () => loginUser() }
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="market-buy">Buy from market</label>
-                        <InputField
-                        type="market-buy"
-                        placeholder=""
-                        value={electricityBuy ? electricityBuy : ""}
-                        onChange={ (val) => setElectricityBuy(val) }
-                        />
-                    </div>
-                    <div>
-                        <SubmitButton
-                        text="Buy amount"
-                        disabled={buyButtonDisabled}
-                        onClick={ () => loginUser() }
-                        /> 
-                    </div>
         </div>
     );
 }
