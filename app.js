@@ -1,11 +1,10 @@
 
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const graphqlHttp  = require('express-graphql').graphqlHTTP;
 const mongoose = require('mongoose');
 const authentication = require('./middleware/authentication');
-const cors = require('cors')
+const cors = require('cors');
 
 const graphqlBuildSchema = require('./graphql/schemas/index');
 const graphqlResolvers = require('./graphql/resolvers/index');
@@ -15,12 +14,10 @@ const app = express();
 app.use(cors())
 
 
-
-
-app.use(express.urlencoded({
+app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(express.json());
+app.use(bodyParser.json());
 
 
 
@@ -32,8 +29,6 @@ app.set('view engine', 'html');
 
 
 app.use(authentication);
-
-app.use(cors())
 
 
 app.use('/graphql', cors(), graphqlHttp({

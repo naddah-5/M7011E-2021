@@ -32,9 +32,9 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
-    prosumers: {
+    houses: {
           type: Schema.Types.ObjectId,
-          ref: 'Prosumer'
+          ref: 'House'
     }
 });
 

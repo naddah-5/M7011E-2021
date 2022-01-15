@@ -1,5 +1,5 @@
 const SimulatorEvent = require('../../models/simulatorEvent');
-const Prosumer = require('../../models/prosumer');
+const House = require('../../models/house');
 const User = require('../../models/user');
 
 
@@ -10,11 +10,11 @@ const returnSimEvent = simulatorEvent => {
         date: new Date(simulatorEvent._doc.date).toISOString()};
 };
 
-const prosumersRet = async prosumerId => {
+const housesRet = async houseId => {
     try {
-        const prosumers_ = await Prosumer.findById(prosumerId);
+        const houses_ = await House.findById(houseId);
         
-        return returnProsumerEvent(prosumers_);
+        return returnHouse(houses_);
   } catch(err) {
       throw err;
   }
@@ -25,17 +25,17 @@ const user = async userId => {
         const user = await User.findById(userId)
         return {...user._doc,
             _id: user.id,
-            prosumers: prosumersRet.bind(this, user._doc.prosumers)};     
+            houses: housesRet.bind(this, user._doc.houses)};     
     }
     catch(err) {
         throw err;
     }
 };
 
-const returnProsumerEvent = prosumer => {
-    return {...prosumer._doc, 
-        _id: prosumer.id,
-        user: user.bind(this, prosumer.user)};
+const returnHouse = house => {
+    return {...house._doc, 
+        _id: house.id,
+        owner: user.bind(this, house.owner)};
 };
 
 const singleSimEvent = async eventId => {
@@ -50,4 +50,4 @@ const singleSimEvent = async eventId => {
 exports.user = user;
 exports.singleSimEvent = singleSimEvent;
 exports.returnSimEvent = returnSimEvent;
-exports.returnProsumerEvent = returnProsumerEvent;
+exports.returnHouse = returnHouse;

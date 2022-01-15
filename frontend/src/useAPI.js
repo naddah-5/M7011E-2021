@@ -26,7 +26,7 @@ export async function apiGetSimData() {
       }
 };
 
-export async function apiGetProsumerData() {
+export async function apiGetHouseData() {
   try {
     const response = await fetch("http://localhost:4000/graphql", {
         method: "POST",
@@ -35,11 +35,24 @@ export async function apiGetProsumerData() {
         },
         body:JSON.stringify({
           query:`{
-            prosumerEvents {
+            getHouse(houseGet: {
+              userId: "${"61e1d856a423ffc764ea3036"}"
+            }) {
               _id
+              address
+              windTurbineID {
+                efficiency
+              }
+              batteryID {
+                capacity
+              }
+              consumption
+              minConsumption
+              maxConsumption
+              buyRatio
+              sellRatio
               production
               netProduction
-              buffer
             }}`
     })
   });
@@ -49,10 +62,10 @@ export async function apiGetProsumerData() {
   catch(e) {
       console.log(e);
     }
-};
+}; 
 
 
-export async function apiUpdateHouseData(sellRatio, buyRatio) {
+export async function apiUpdateBuyRatio(buyRatio) {
   try {
     const response = await fetch("http://localhost:4000/graphql", {
         method: "POST",
@@ -60,14 +73,42 @@ export async function apiUpdateHouseData(sellRatio, buyRatio) {
           "Content-Type": "application/json"
         },
         body:JSON.stringify({
-          query:`{
-            login(
-              buyRatio:"${buyRatio}",
-              sellRatio:"${sellRatio}"
-            ){
-              buyRatio
-              sellRatio
-            }}`
+          query:`
+            mutation {
+              updateHouseBuyRatio(houseBuyRatio: {
+                userId: "${"61e1d856a423ffc764ea3036"}"
+                buyRatio: ${buyRatio}
+              }) {
+                buyRatio
+              }
+            }`
+        })
+  });
+
+  return await response.json();
+  }
+  catch(e) {
+      console.log(e);
+    }
+};
+
+export async function apiUpdateSellRatio(sellRatio) {
+  try {
+    const response = await fetch("http://localhost:4000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          query:`
+            mutation {
+              updateHouseSellRatio(houseSellRatio: {
+                userId: "${"61e1d856a423ffc764ea3036"}"
+                sellRatio: ${sellRatio}
+              }) {
+                sellRatio
+              }
+            }`
         })
   });
 

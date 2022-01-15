@@ -18,6 +18,7 @@ function App() {
                 <Route exact path="/home" element={<Home/>}/>
                 <Route exact path="/profile" element={<Profile/>}/>
                 <Route exact path="/" element={<StartPage/>}/>
+                <Route exact path="/register" element={<RegistrationPage/>}/>
             </Routes>
           </React.Fragment>
           </div>

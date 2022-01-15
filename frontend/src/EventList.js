@@ -3,7 +3,7 @@ import './home.css';
 import InputField from './components/InputField';
 
 
- export default function EventList({simEvent, house}) {
+ export default function EventList(simEvent) {
 
     
     /* const [electricitySell,setElectricitySell] = useState("");
@@ -20,15 +20,14 @@ import InputField from './components/InputField';
 
     const [ev, setEvents] = useState([]);
     useEffect(() => {
-        console.log(simEvent);
         setEvents(simEvent);
     }, [simEvent]);
 
-   const [ho, setHouse] = useState([]);
+   /*const [ho, setHouse] = useState([]);
     useEffect(() => {
         console.log(house);
         setHouse(house);
-    }, [house]);
+    }, [house]); */
 
 
   /* const setHouse = async () => {
@@ -46,6 +45,20 @@ import InputField from './components/InputField';
 
         setButtonDisabled(false); */
 
+    /* let efficiency;
+    let buffer;
+    if(ho.windTurbineID) {
+        efficiency = <h2>{ho.windTurbineID.efficiency} %</h2>
+    } else {
+        efficiency = <h2> NA </h2>
+    }
+    if(ho.batteryID) {
+        buffer = <h2>{ho.windTurbineID.capacity} %</h2>
+    } else {
+        buffer = <h2> NA </h2>
+    } */
+
+    //console.log("Utanför", ev["data"]);
 
     return ( 
         <div className="event-list">
@@ -61,16 +74,6 @@ import InputField from './components/InputField';
                     <h2>{ev.date}</h2>
                 </div>
 
-            <h2>Current house data</h2>         
-                <div className="event-view" key={ho._id}>
-                    <h1>Production:</h1>
-                    <h2>{ho.production} kW/h</h2>
-                    <h1>NetProduction:</h1>
-                    <h2>{ho.netProduction} kW/h</h2>
-                    <h1>Buffer:</h1>
-                    <h2>{ho.buffer} kW/h</h2>
-                </div>
-
         </div>
-    );
+     );
 }

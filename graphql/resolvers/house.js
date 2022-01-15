@@ -1,41 +1,72 @@
 const House = require("../../models/house");
 const User = require("../../models/user");
+const {returnHouse} = require('./helper');
 
 module.exports = {
-    createHouse: async (args, req) => {
-        console.log("Entered create house function.")
-        /*if(!req.isAuthenticated){
-            console.log("Not authorized.")
-            throw new Error("Not authorized");
-            }*/
-        try{
-            //const fetchedUser = await User.findOne({_id: args.houseInput.owner});
-            const house = new House({
-                address: req.houseInput.address,
-                //note that owner is supposed to be the prosumer ID not the name
-                ownerID: req.houseInput.ownerID
-            });
-            const result = await house.save();
-            return {...result._doc, address: result.address, owner: result.owner, _id: result._id};
-        }
-        catch (e) {
-            console.log("Create house failed.")
-            throw (e);
+    getHouse: async (args,req) => {
+        //if(!req.isAuthenticated) {
+            //throw new Error('Not authorized!');
+        //}
+        try {
+            const house = await House.findOne({owner: args.houseGet.userId})
+            return returnHouse(house);
+        } catch(err) {
+            throw err;
         }
     },
-    updateHouse: async (args, req) => {
+    createHouse: async (args) => {
+        
+        const house = new House({
+            address: args.houseInput.address,
+            owner: args.houseInput.owner
+        });
+        let createdHouse;
+        try {
+            const result = await house.save()
+      
+            createdProsumer = returnHouse(result);
+            
+            const user = await User.findById(args.houseInput.owner);
+      
+            if(!user) {
+                throw new Error('User does not exist')
+            }
+            user.houses = house;
+            
+            await user.save();
+            return createdHouse;
+        } catch(err) {
+            throw err;
+        }
+    },
+    updateHouseBuyRatio: async (args, req) => {
         /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
         }
         */
        try {
-        const house = await House.updateOne({owner: req.userId}, {sellRatio: args.sellRatio, buyRatio: args.buyRatio});
-        const result = await house.save()
-        return {...result._doc, address: result.address, owner: result.owner, _id: result._id};
+        const house = await House.updateOne({owner: args.houseBuyRatio.userId}, {buyRatio: args.houseBuyRatio.buyRatio});
+        let updatedHouse;
+        updatedHouse = returnHouse(house);
+        return updatedHouse;
        }
-       catch (e) {
-        console.log("Update house failed.")
-        throw (e);
+       catch (err) {
+        throw (err);
+        }
+    },
+    updateHouseSellRatio: async (args, req) => {
+        /*if(!req.isAuthenticated) {
+            throw new Error ("Not authorized");
+        }
+        */
+       try {
+        const house = await House.updateOne({owner: args.houseSellRatio.userId}, {sellRatio: args.houseSellRatio.sellRatio});
+        let updatedHouse;
+        updatedHouse = returnHouse(house);
+        return updatedHouse;
+       }
+       catch (err) {
+        throw (err);
         }
     },
     deleteHouse: async (args, req) => {
