@@ -26,7 +26,6 @@ function Home() {
         setBuyButtonDisabled(false);
     }
 
-    const [buy, setBuy] = useState([]);
 
     const setBuyRatio = async () => {
         let valid = true;
