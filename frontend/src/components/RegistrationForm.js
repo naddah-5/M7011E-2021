@@ -2,7 +2,6 @@ import React, {useState} from        "react";
 import InputField from               "./InputField";
 import SubmitButton from             "./SubmitButton";
 import { useNavigate } from          'react-router-dom'
-import UserStore from                "../stores/UserStore";
 
 function RegistrationForm(){
     const navigate = useNavigate();

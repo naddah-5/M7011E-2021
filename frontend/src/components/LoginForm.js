@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-/*import Express from 'express';
-import bodyParser from 'body-parser';*/
+import React, { useState } from 'react';
 import InputField from './InputField';
 import SubmitButton from './SubmitButton';
 import UserStore from '../stores/UserStore';
@@ -32,11 +30,7 @@ function LoginForm(props) {
     //disable the login button so that we don't flood the api with login requests 
     setButtonDisabled(true);
     try {
-      // ONLY FOR TESTING!!!
-      console.log(username);
-      console.log(password);
-      //
-
+      
       const res = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
@@ -61,20 +55,11 @@ function LoginForm(props) {
       //if the login is successful update the user store
       if(res.status === 200) {
         UserStore.loading = true;
-        console.log(result.data);
-        console.log(res.status);
         UserStore.isLoggedIn = true;
         UserStore.username = username;
 
-        console.log("the stored username is: " + UserStore.username)
-
         UserStore.userId =  result.data.login["userId"];
         UserStore.authToken = result.data.login["token"];
-
-
-        console.log("the stored user ID is: " + UserStore.userId);
-        console.log("the stored auth token is: " + UserStore.authToken);
-
 
         UserStore.loading = false;
         setButtonDisabled(false);
@@ -87,7 +72,6 @@ function LoginForm(props) {
 
     }
     catch(e) {
-      console.log(e);
       resetForm();
     }
   }

@@ -1,19 +1,15 @@
-import {useState} from "react";
-import EventList from "./EventList";
+import UserContext from "./User-context";
+import { useContext } from "react";
 
+function Profile () {
 
-const Home = () => {
-
-
-    const [events, setEvents] = useState([
-        {title: "simon", body: "sdasdasdad", author: "asdasd", id: 1},
-    ]);
-
-    return ( 
-        <div className="home">
-            <EventList events={events} title="Current simulator data"/>
-        </div>
-     );
+    const { token } = useContext(UserContext);
+    return (        
+                <div className="event-view">
+                    <h1>{token}</h1>
+                    
+                </div>
+    );
 }
  
-export default Home;
+export default Profile;

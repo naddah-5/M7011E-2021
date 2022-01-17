@@ -65,7 +65,7 @@ function Home() {
 
     return ( 
         <div className="event-list">
-            <h2>Current simulator data</h2>         
+            <h2>Current simulator data</h2>   
                 <div className="event-view" key={ev._id}>
                     <h1>Windspeed:</h1>
                     <h2>{ev.windSpeed} m/s</h2>
