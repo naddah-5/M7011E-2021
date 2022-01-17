@@ -2,10 +2,11 @@
 
 * {
     margin: 0;
-    font-family: "Audiowide";
     color: rgb(56, 114, 54);
   }
-  .navbar {
+  .navbar ul {
+    font-family: "Audiowide";
+    list-style: none;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -14,31 +15,56 @@
     border-bottom: 4px solid #f2f2f2;
   }
   .navbar h1 {
+    font-family: "Audiowide";
     color: #77df91;
     font-size: xx-large;
+    
   }
-
-
+  
   .navbar .links {
+    font-family: "Audiowide";
     margin-left: auto;
     color: #133
   }
   .navbar a {
+    font-family: "Audiowide";
     margin-left: 16px;
     text-decoration: none;
     padding: 20px;
     font-size: x-large;
   }
-  .navbar a:hover {
+
+  .navbar a:hover
+   {
     color: #133;
   }
+
+  .navbar a:active,
+  .navbar a.active {
+    color: #133;
+  }
+
+
   .content {
     max-width: 600px;
     margin: 40px auto;
     padding: 20px;
   }
 
-  .event-view {
+
+  .event-view h2 {
+    font-family: "Tirong";
+    color: black;
+    margin-bottom: 14px;
+    font-size: 20px;
+}
+
+.event-view h1 {
+    font-family: "Audiowide";
+    font-size: 20px;
+}
+
+.event-view {
     padding: 10px 16px;
     margin: 20px 0;
     border-bottom: 1px solid #fafafa;
@@ -48,8 +74,32 @@
     box-shadow: 1px 3px 5px rgba(0, 0, 0.1);
   }
 
-  .event-view h2 {
-    font-size: 20px;
-    color: #77df91;
-    margin-bottom: 14px;
+  .event-list {
+    font-family: "Audiowide";
+    margin: auto;
+    width: 50%;
+    padding: 0px;
   }
+
+  .app {
+    font-family: "Audiowide";
+    margin: auto;
+    width: 20%;
+    
+  }
+
+  .registrationForm {
+    font-family: "Audiowide";
+    margin: auto;
+    width: 20%;
+    padding: 20px;
+    border: 3px solid green;
+    font-size: x-large;
+  }
+
+
+  
+
+
+  
+

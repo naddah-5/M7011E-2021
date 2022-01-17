@@ -2,19 +2,22 @@ const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
 
-type Prosumer {
+type WindTurbine {
   _id: ID!
-  simulatorEvent: SimulatorEvent!
-  user: User!
-  production: Float!
-  netProduction: Float!
-  buffer: Float!
+  house: House!
+  efficiency: Float
+}
+
+type Battery {
+  _id: ID!
+  house: House!
+  capacity: Float
 }
 
 type SimulatorEvent {
   _id: ID!
   windSpeed: Float!
-  electricityConsumption: Float!
+  electricityDemand: Float!
   price: Float!
   date: String!
 }
@@ -27,8 +30,25 @@ type User {
   lastName: String
   birthDate: String
   address: String
-  createdEvents: [SimulatorEvent!]
+  picture: String
+  houses: House!
 }
+
+type House {
+  _id: ID!
+  address: String!
+  owner: User!
+  windTurbineID: WindTurbine
+  batteryID: Battery
+  consumption: Float
+  minConsumption: Float
+  maxConsumption: Float
+  sellRatio: Float
+  buyRatio: Float
+  production: Float
+  netProduction: Float
+}
+
 
 type AuthData {
   userId: ID!
@@ -45,6 +65,28 @@ input UserInput {
   address: String
 }
 
+input HouseInput {
+  address: String!
+  owner: ID!
+  consumption: Float
+  minConsumption: Float
+  maxConsumption: Float
+  sellRatio: Float
+  buyRatio: Float
+  production: Float
+  netProduction: Float
+}
+
+input WindTurbineInput {
+  house: ID!
+  efficiency: Float
+}
+
+input BatteryInput {
+  house: ID!
+  capacity: Float
+}
+
 input SimulatorEventInput {
   windSpeed: Float!
   electricityDemand: Float!
@@ -53,17 +95,25 @@ input SimulatorEventInput {
 }
 
 
-input ProsumerInput {
-  eventId: ID!
-  production: Float!
-  netProduction: Float!
-  buffer: Float!
+input HouseGet {
+  userId: ID!
+}
+
+input HouseBuyRatio {
+  userId: ID!
+  buyRatio: Float!
+}
+
+input HouseSellRatio {
+  userId: ID!
+  sellRatio: Float!
 }
 
 
+
 type RootQuery {
-  simEvents: [SimulatorEvent!]!
-  prosumerSimEvents: [Prosumer!]!
+  simEvents: SimulatorEvent!
+  getHouse(houseGet: HouseGet): House!
   login(email: String!, password: String!): AuthData!
   
 }
@@ -71,9 +121,10 @@ type RootQuery {
 type RootMutation {
   createSimEvent(simulatorEventInput: SimulatorEventInput): SimulatorEvent
   createUser(userInput: UserInput): User
-  createProsumer(prosumerInput: ProsumerInput): Prosumer!
-  deleteProsumerSimEvent(prosumerId: ID!): SimulatorEvent!
-
+  createHouse(houseInput: HouseInput): House
+  deleteHouse(houseInput: HouseInput): Boolean!
+  updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
+  updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
 }
 
 schema {

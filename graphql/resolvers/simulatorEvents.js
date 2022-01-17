@@ -9,38 +9,24 @@ module.exports = {
             //throw new Error('Not authorized!');
         //}
         try {
-            const simEvents = await SimulatorEvent.find()
-            return simEvents.map(simulatorEvent => {
-                return returnSimEvent(simulatorEvent);
-            });  
+            const simEvent = await SimulatorEvent.findOne({sort: {'createdAt' : -1}})
+            return returnSimEvent(simEvent);
         } catch(err) {
             throw err;
         }
     },
-    createSimEvent: async (args,req) => {
-        //if(!req.isAuthenticated) {
-            //throw new Error('Not authorized!');
-        //}
-
+    createSimEvent: async (args) => {
         const simulatorEvent = new SimulatorEvent({
             windSpeed: +args.simulatorEventInput.windSpeed,
             electricityDemand: +args.simulatorEventInput.electricityDemand,
             price: +args.simulatorEventInput.price,
             date: new Date(args.simulatorEventInput.date),
-            //creator: req.userId,
         });
         let createdEvent;
         try {
             const result = await simulatorEvent.save()
       
             createdEvent = returnSimEvent(result);
-            //const creator = await User.findById(req.userId);
-      
-            //if(!creator) {
-                //throw new Error('User does not exist')
-            //}
-            //creator.createdEvents.push(simulatorEvent);
-            //await creator.save();
             return createdEvent;
         } catch(err) {
             throw err;
