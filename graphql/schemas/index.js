@@ -122,9 +122,13 @@ type RootMutation {
   createSimEvent(simulatorEventInput: SimulatorEventInput): SimulatorEvent
   createUser(userInput: UserInput): User
   createHouse(houseInput: HouseInput): House
-  deleteHouse(houseInput: HouseInput): Boolean!
+  deleteHouse(houseInput: HouseInput): Boolean
   updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
   updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
+  createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
+  deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean
+  createBattery(batteryInput: BatteryInput): Battery
+  deleteBattery(batteryInput: BatteryInput): Boolean
 }
 
 schema {

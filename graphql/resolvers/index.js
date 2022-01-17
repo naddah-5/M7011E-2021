@@ -1,13 +1,15 @@
 const authenticationResolver = require('./auth');
 const simEventsResolver = require('./simulatorEvents');
 const houseResolver = require('./house');
-const windTurbine = require('../../models/windTurbine');
+const windTurbineResolver = require('../../models/windTurbine');
+const batteryResolver = require('../../models/battery');
 
 const roootResolver = {
     ...authenticationResolver,
     ...simEventsResolver,
     ...houseResolver,
-    ...windTurbine
+    ...windTurbineResolver,
+    ...batteryResolver
 };
 
 module.exports = roootResolver;
