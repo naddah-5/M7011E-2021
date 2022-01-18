@@ -49,13 +49,16 @@ module.exports = {
             throw (e);
         }
     },
-    updateRegion: async (req, args) => {
+    incrementRegion: async (req, args) => {
         /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
         }*/
         try {
-            const fetchedRegion = await Region.findOne({name: args.name});
-            
+            const regionUpdate = await Region.findOneAndUpdate({name: args.name}, {windSpeed: args.windSpeed, gridCapacity: args.gridCapacity, gridDemand: args.gridDemand}, {new: true});
+            const result = await regionUpdate.save();
+      
+            return {result};
+
         }
         catch (e) {
             throw (e);

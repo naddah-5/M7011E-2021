@@ -51,8 +51,7 @@ module.exports = {
             }
             const fetchedWindTurbine = await WindTurbine.findOne({_id: fetchedHouse.windTurbineID})
             if (fetchedWindTurbine.quantity > 1) {
-                let oldQuantity = fetchedWindTurbine.quantity;
-                let newQuantity = oldQuantity - 1;
+                let newQuantity = fetchedWindTurbine.quantity - 1;
                 const decrement = await WindTurbine.updateOne({_id: fetchedWindTurbine._id}, {quantity: newQuantity});
                 return decrement.acknowledged;
             }

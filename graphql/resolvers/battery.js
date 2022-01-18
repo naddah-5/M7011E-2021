@@ -34,7 +34,7 @@ module.exports = {
         try{
             const fetchedHouse = await House.findOne({_id: args.batteryInput.houseID});
             const removeBattery = await Battery.deleteOne({_id: fetchedHouse.batteryID});
-            const removeBatteryFromHouse = await House.updateOne({_id: fetchedHouse._id}, { $unset: {battery: ""}})
+            const removeBatteryFromHouse = await House.updateOne({_id: fetchedHouse._id}, {battery: ""})
             const saveHouse = await House.save();
 
             if (removeBattery && removeBatteryFromHouse && saveHouse) {

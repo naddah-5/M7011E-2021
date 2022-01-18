@@ -116,6 +116,13 @@ input RegionInput {
   gridDemand: Float
 }
 
+input IncrementRegionInput {
+  name: String!
+  windSpeed: Float!
+  gridCapacity: Float!
+  gridDemand: Float!
+}
+
 input HouseGet {
   userId: ID!
 }
@@ -154,6 +161,7 @@ type RootMutation {
   createRegion(): Region
   deleteAllRegions(): Boolean
   regionInfo(): Region
+  incrementRegion(incrementRegionInput: IncrementRegionInput): Region
 }
 
 schema {
