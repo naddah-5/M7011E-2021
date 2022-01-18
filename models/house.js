@@ -52,6 +52,14 @@ const houseSchema = new Schema({
     netProduction: {
         type: Number,
         default: 0
+    },
+    status: {
+        type: String,
+        default: "Operating"
+    },
+    region: {
+        type: String,
+        default: "Luleå"
     }
 })
 

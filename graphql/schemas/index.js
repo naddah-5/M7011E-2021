@@ -47,8 +47,19 @@ type House {
   buyRatio: Float
   production: Float
   netProduction: Float
+  status: String
+  region: String
 }
 
+type Region {
+  _id: ID!
+  name: String
+  temperature: Float
+  windSpeed: Float
+  gridCapacity: Float
+  maxGridCapacity: Float
+  gridDemand: Float
+}
 
 type AuthData {
   userId: ID!
@@ -75,6 +86,8 @@ input HouseInput {
   buyRatio: Float
   production: Float
   netProduction: Float
+  status: String
+  region: String
 }
 
 input WindTurbineInput {
@@ -94,6 +107,14 @@ input SimulatorEventInput {
   date: String!
 }
 
+input RegionInput {
+  name: String
+  temperature: Float
+  windSpeed: Float
+  gridCapacity: Float
+  maxGridCapacity: Float
+  gridDemand: Float
+}
 
 input HouseGet {
   userId: ID!
@@ -125,10 +146,14 @@ type RootMutation {
   deleteHouse(houseInput: HouseInput): Boolean
   updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
   updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
+  listAllHomes(): [House]
   createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
   deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean
   createBattery(batteryInput: BatteryInput): Battery
   deleteBattery(batteryInput: BatteryInput): Boolean
+  createRegion(): Region
+  deleteAllRegions(): Boolean
+  regionInfo(): Region
 }
 
 schema {

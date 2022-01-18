@@ -29,7 +29,7 @@ module.exports = {
                     ownerID: fetchedUser._id,
                     houseID: fetchedHouse._id
                 });
-                const result = await windTurbine.save();
+                const result = await createdWindTurbine.save();
                 return {...result._doc, ownerID: result.ownerID, houseID: result.houseID}
             }
             

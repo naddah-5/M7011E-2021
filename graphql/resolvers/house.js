@@ -69,6 +69,18 @@ module.exports = {
         throw (err);
         }
     },
+    updateHouseProduction: async (args, newProduction, req) => {
+        /*if(!req.usAuthenticated) {
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            let res = House.updateOne({_id: args.house._id}, {production: newProduction});
+            return res.result.ok;
+        }
+        catch (e) {
+            throw (e);
+        }
+    },
     deleteHouse: async (args, req) => {
         /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
@@ -84,6 +96,18 @@ module.exports = {
             return result.acknowledged;
         }
         catch(e) {
+            throw (e);
+        }
+    },
+    listAllHomes: async (req) => {
+        /*if (!req.isAuthenticated) {
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            const allHomes = await House.find().toArray();
+            return allHomes;            
+        }
+        catch (e) {
             throw (e);
         }
     }
