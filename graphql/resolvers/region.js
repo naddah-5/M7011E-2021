@@ -57,7 +57,7 @@ module.exports = {
             const regionUpdate = await Region.findOneAndUpdate({name: args.name}, {windSpeed: args.windSpeed, gridCapacity: args.gridCapacity, gridDemand: args.gridDemand}, {new: true});
             const result = await regionUpdate.save();
       
-            return {result};
+            return result;
 
         }
         catch (e) {
