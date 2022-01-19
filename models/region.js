@@ -13,7 +13,7 @@ const regionSchema = new Schema({
     },
     windSpeed: {
         type: Number,
-        default: 0
+        default: 5
     },
     //electricity currently in the grid and available.
     gridCapacity: {
