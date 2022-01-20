@@ -51,7 +51,19 @@ module.exports = {
             throw new Error ("Not authorized");
         }*/
         try {
-            const updateBatteryOperation = await Battery.findOneAndUpdate({house: args.batteryInput.house}, {capacity: args.batteryInput.capacity}, {new: true});
+            let fetchedBattery = await Battery.findOne({house: args.batteryInput.house});
+            let currentCapacity = args.fetchedBattery.capacity;
+            let newCapacity = fetchedBattery.capacity + currentCapacity;
+            if(newCapacity <= 0) {
+                const updateBatteryOperation = await Battery.findOneAndUpdate({house: args.batteryInput.house}, {capacity: 0}, {new: true});    
+            }
+            else if(newCapacity >= fetchedBattery.maxCapacity) {
+                const updateBatteryOperation = await Battery.findOneAndUpdate({house: args.batteryInput.house}, {capacity: fetchedBattery.maxCapacity}, {new: true});
+            }
+            //overly verbose but extra safeguard against unknown errors
+            else if(0 < newCapacity < fetchedBattery.maxCapacity) {
+            const updateBatteryOperation = await Battery.findOneAndUpdate({house: args.batteryInput.house}, {capacity: newCapacity}, {new: true});
+            }
             if(!updateBatteryOperation) {
                 throw new Error ("Failed to update battery capacity, battery not found");
             }
