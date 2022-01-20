@@ -127,6 +127,13 @@ input HouseGet {
   userId: ID!
 }
 
+input incrementHouse {
+  id: String
+  consumption: Float
+  production: Float
+  netProduction: Float
+}
+
 input HouseBuyRatio {
   userId: ID!
   buyRatio: Float!
@@ -151,6 +158,7 @@ type RootMutation {
   createUser(userInput: UserInput): User
   createHouse(houseInput: HouseInput): House
   deleteHouse(houseInput: HouseInput): Boolean
+  incrementHouse(incrementHouse: IncrementHouse): House
   updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
   updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
   listAllHomes(): [House]
@@ -158,6 +166,7 @@ type RootMutation {
   deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean
   createBattery(batteryInput: BatteryInput): Battery
   deleteBattery(batteryInput: BatteryInput): Boolean
+  updateBatteryCapacity(batteryInput: BatteryInput): Battery
   createRegion(): Region
   deleteAllRegions(): Boolean
   regionInfo(): Region

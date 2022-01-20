@@ -2,7 +2,7 @@ const Battery = require("../../models/battery");
 const House = require("../../models/house");
 
 module.exports = {
-    createBattery: async (req, args) => {
+    createBattery: async (args, req) => {
         /*if(!req.isAuthenticated){
             console.log("Not authorized");
             throw new Error("Not authorized");
@@ -26,15 +26,15 @@ module.exports = {
             throw (e);
         }
     },
-    deleteBattery: async (req, args) => {
+    deleteBattery: async (args, req) => {
         /*if (!req.isAuthenticated){
             console.log("Not authorized.")
             throw new Error("Not authorized.");
         }*/
-        try{
+        try {
             const fetchedHouse = await House.findOne({_id: args.batteryInput.houseID});
-            const removeBattery = await Battery.deleteOne({_id: fetchedHouse.batteryID});
             const removeBatteryFromHouse = await House.updateOne({_id: fetchedHouse._id}, {battery: ""})
+            const removeBattery = await Battery.deleteOne({_id: fetchedHouse.batteryID});
             const saveHouse = await House.save();
 
             if (removeBattery && removeBatteryFromHouse && saveHouse) {
@@ -43,6 +43,21 @@ module.exports = {
         }
         catch (e) {
             console.log("Delete operation failed.");
+            throw (e);
+        }
+    },
+    updateBatteryCapacity: async (args, req) => {
+        /*if(!req.isAuthenticated){
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            const updateBatteryOperation = await Battery.findOneAndUpdate({house: args.batteryInput.house}, {capacity: args.batteryInput.capacity}, {new: true});
+            if(!updateBatteryOperation) {
+                throw new Error ("Failed to update battery capacity, battery not found");
+            }
+            return updateBatteryOperation;
+        }
+        catch (e) {
             throw (e);
         }
     }

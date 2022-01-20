@@ -1,4 +1,5 @@
-import { listAllHomes } from "../../graphql/resolvers"
+import { listAllHomes, incrementHouse } from "../../graphql/resolvers/house";
+import { updateBatteryCapacity } from "../../graphql/resolvers/battery";
 import "./consumptionIncrementor"
 const House = require("../../models/house");
 const WindTurbine = require("../../models/windTurbine");
@@ -31,20 +32,40 @@ async function houseItterator(regionData){
              */
             let newElectricConsumption = Simulator.getElectricityConsumption(0, 100);
             /**
-             * 
+             * parse the new values for consumption, production, net production, and battery capacity 
+             * and send them to the resolvers to update the DB
              */
             let netProduction = electricProduction - newElectricConsumption;
+            /**
+             * if the production is greater than the consumption we split up the excess production as follows
+             */
             if(netProduction > 0) {
                 let gridSale = netProduction * Simulator.sellRatio;
                 let batteryBuffer = netProduction - gridSale;
-                let incrementHouse = {};
-                incrementHouse["consumption"] = newElectricConsumption;
-                incrementHouse["production"] = electricProduction;
-                incrementHouse["netProduction"] = netProduction;
-                let batteryInput = {};
-                batteryInput["house"] = currentHouse._id;
-                batteryInput["capacity"] = batteryBuffer;
+                let incrementHouseData = {};
+                incrementHouseData["id"] = currentHouse._id;
+                incrementHouseData["consumption"] = newElectricConsumption;
+                incrementHouseData["production"] = electricProduction;
+                incrementHouseData["netProduction"] = netProduction;
+                const sendIncrementHouseOperation = await incrementHouse(incrementHouseData)
+                if(!sendIncrementHouseOperation){
+                    throw new Error ("Failed to increment house");
+                }
+                let batteryInputData = {};
+                batteryInputData["house"] = currentHouse._id;
+                batteryInputData["capacity"] = batteryBuffer;
+                const sendUpdatedBatteryCapacity = await updateBatteryCapacity(batteryInputData);
+                if(!sendUpdatedBatteryCapacity) {
+                    throw new Error ("Failed to increment battery");
+                }
             }
+        }
+        /**
+         * ALERT!
+         * the simulator will view electricity taken from the battery as PRODUCTION.
+         */
+        else {
+            
         }
     }
 }
