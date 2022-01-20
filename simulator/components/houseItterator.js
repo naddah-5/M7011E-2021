@@ -7,7 +7,7 @@ const WindTurbine = require("../../models/windTurbine");
 const Region = require("../../models/region");
 const Simulator = require("../global_simulator");
 
-//this should provide general functionality to itterate a houses data in the simulation
+//this should provide general functionality to iterate a houses data in the simulation
 //for instance a function that takes a houses data as input, retrieves the region data and returns the itterated house data
 
 //the arguments should probably be compiled into a json object
