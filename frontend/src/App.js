@@ -5,23 +5,20 @@ import LoginPage from './LoginPage';
 import RegistrationPage from './RegistrationPage'
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import React from 'react';
-import { useState, useMemo } from 'react';
-import UserContext from './User-context';
+import { useState, useEffect } from 'react';
 
 
 function App() {
 
   const [token, setToken] = useState(null);
 
-  const value = useMemo(
-    () => ({ token, setToken }), 
-    [token]
-  );
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    })
 
   return (
     <Router>
-          <React.Fragment>
-            <UserContext.Provider value={value}>
+            <React.Fragment>
             <Navbar />
             <div className="content"></div>
             <Routes>
@@ -29,13 +26,11 @@ function App() {
               {token && (<Route exact path="/home" element={<Home/>}/>)}
               {token && (<Route exact path="/profile" element={<Profile/>}/>)}
 
-              <Route exact path="/login" element={<LoginPage/>}/>
-
+              {!token && (<Route exact path="/login" element={<LoginPage/>}/>)}
               {!token && (<Route path="/" element={<Navigate to ="/login"/>}/>)}
               {!token && (<Route exact path="/register" element={<RegistrationPage/>}/>)}
             </Routes>
-            </UserContext.Provider>
-          </React.Fragment>
+            </React.Fragment>
       </Router>
       
     

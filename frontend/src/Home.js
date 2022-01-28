@@ -1,18 +1,82 @@
-import { useState, useEffect } from "react";
-import {apiGetSimData, apiGetHouseData, apiUpdateBuyRatio, apiUpdateSellRatio} from "./useAPI";
+import { useState, useEffect, Fragment} from "react";
 import InputField from './components/InputField';
 import SubmitButton from './components/SubmitButton';
+
 
 function Home() {
     const [ev, setEventResult] = useState([]);
     const [ho, setHouseResult] = useState([]);
 
     useEffect(async () => {
-        let simEventResult_ = await apiGetSimData();
-        let houseResult_ = await apiGetHouseData();
-        setEventResult(simEventResult_.data.simEvents);
-        setHouseResult(houseResult_.data.getHouse);
+       
+        try {
+        
+          const res = await fetch("http://localhost:4000/graphql", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem('token')
+                },
+                body:JSON.stringify({
+                  query:`{
+                    simEvents {
+                      _id
+                      windSpeed
+                      electricityDemand
+                      price
+                      date
+                    }}`
+            })
+          });
+      
+          let eventResult = await res.json();
+          setEventResult(eventResult.data.simEvents);
+          }
+          catch(e) {
+            console.log(e);
+          }
+
+        try {
+          const res = await fetch("http://localhost:4000/graphql", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem('token')
+              },
+              body:JSON.stringify({
+                query:`{
+                  getHouse(getHouse: {
+                    userId: "${localStorage.getItem('userId')}"
+                  }) {
+                    _id
+                    address
+                    windTurbineID {
+                      efficiency
+                    }
+                    batteryID {
+                      capacity
+                    }
+                    consumption
+                    minConsumption
+                    maxConsumption
+                    buyRatio
+                    sellRatio
+                    production
+                    netProduction
+                  }}`
+          })
+          
+        });
+      
+        let houseResult = await res.json();
+        setHouseResult(houseResult.data.getHouse);
+        }
+        catch(e) {
+            console.log(e);
+          }
     }, []);
+
+
 
     const [electricitySell,setElectricitySell] = useState("");
     const [electricityBuy,setElectricityBuy] = useState("");
@@ -26,6 +90,7 @@ function Home() {
         setBuyButtonDisabled(false);
     }
 
+  
 
     const setBuyRatio = async () => {
         let valid = true;
@@ -33,16 +98,40 @@ function Home() {
         valid = valid && ((Number(electricityBuy) + ho.sellRatio) <= 1)
         valid = valid && (ho.production < ho.consumption)
         if(valid) {
+            const buyRatio = Number(electricityBuy);
             setBuyButtonDisabled(true);
-            await apiUpdateBuyRatio(Number(electricityBuy));
+            try {
+                fetch("http://localhost:4000/graphql", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + localStorage.getItem('token')
+                    },
+                    body:JSON.stringify({
+                      query:`
+                        mutation {
+                          updateHouseBuyRatio(buyRatioInput: {
+                            userId: "${localStorage.getItem('userId')}"
+                            buyRatio: ${buyRatio}
+                          }) {
+                            buyRatio
+                          }
+                        }`
+                    })
+                });
+            
+              }
+              catch(e) {
+                  console.log(e);
+                }
             setBuyButtonDisabled(false);
             window.location.reload(false);
+
         } else {
             resetForm();
             alert("Invalid ratio given")
             return(false);
         }
-
     }
 
     const setSellRatio = async () => {
@@ -51,8 +140,33 @@ function Home() {
         valid = valid && ((Number(electricitySell) + ho.buyRatio) <= 1)
         valid = valid && (ho.production > ho.consumption)
         if(valid) {
+            const sellRatio = Number(electricitySell);
             setSellButtonDisabled(true);
-            await apiUpdateSellRatio(Number(electricityBuy));
+            try {
+                fetch("http://localhost:4000/graphql", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + localStorage.getItem('token')
+                    },
+                    body:JSON.stringify({
+                      query:`
+                        mutation {
+                          updateHouseSellRatio(sellRatioInput: {
+                            userId: "${localStorage.getItem('userId')}"
+                            sellRatio: ${sellRatio}
+                          }) {
+                            sellRatio
+                          }
+                        }`
+                    })
+                });
+            
+              }
+              catch(e) {
+                  console.log(e);
+                }
+            
             setSellButtonDisabled(false);
             window.location.reload(false);
         } else {
@@ -60,10 +174,10 @@ function Home() {
             alert("Invalid ratio given")
             return(false);
         }
+    } 
 
-    }
-
-    return ( 
+    return (
+        <Fragment>
         <div className="event-list">
             <h2>Current simulator data</h2>   
                 <div className="event-view" key={ev._id}>
@@ -123,7 +237,8 @@ function Home() {
                     disabled={buyButtonDisabled}
                     onClick={ () => setBuyRatio() }/> 
                 </div>
-        </div> 
+        </div>
+        </Fragment>
     );
 } 
 export default Home;

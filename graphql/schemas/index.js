@@ -87,6 +87,10 @@ input BatteryInput {
   capacity: Float
 }
 
+input GetHouse {
+  userId: ID!
+}
+
 input SimulatorEventInput {
   windSpeed: Float!
   electricityDemand: Float!
@@ -94,27 +98,22 @@ input SimulatorEventInput {
   date: String!
 }
 
-
-input HouseGet {
-  userId: ID!
-}
-
-input HouseBuyRatio {
-  userId: ID!
-  buyRatio: Float!
-}
-
-input HouseSellRatio {
+input SellRatioInput {
   userId: ID!
   sellRatio: Float!
 }
 
+input BuyRatioInput {
+  userId: ID!
+  buyRatio: Float!
+}
 
 
 type RootQuery {
   simEvents: SimulatorEvent!
-  getHouse(houseGet: HouseGet): House!
+  getHouse(getHouse: GetHouse): House!
   login(email: String!, password: String!): AuthData!
+  getUser: User!
   
 }
 
@@ -123,8 +122,8 @@ type RootMutation {
   createUser(userInput: UserInput): User
   createHouse(houseInput: HouseInput): House
   deleteHouse(houseInput: HouseInput): Boolean!
-  updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
-  updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
+  updateHouseBuyRatio(buyRatioInput: BuyRatioInput): House
+  updateHouseSellRatio(sellRatioInput: SellRatioInput): House
 }
 
 schema {

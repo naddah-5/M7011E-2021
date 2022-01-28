@@ -11,7 +11,8 @@ function LogoutUser(props) {
     UserStore.authToken = "";
     UserStore.isLoggedIn = false;
     UserStore.loading = false;
-    console.log("Logout complete");
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
     }
 
     catch(e) {

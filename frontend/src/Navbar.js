@@ -1,9 +1,15 @@
 import { NavLink } from "react-router-dom";
-import UserContext from "./User-context";
-import { useContext } from "react";
+import {  useState, useEffect } from "react";
+import LogoutUser from './components/Logout'
 
 const Navbar = () => {
-    const { token } = useContext(UserContext);
+
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    })
+    
     return ( 
         <nav className="navbar">
             <h1>ElectroSimulator</h1>
@@ -26,7 +32,12 @@ const Navbar = () => {
                     )}
                     {token && (
                     <li>
-                        <NavLink to="/login">Logout</NavLink>
+                        <button onClick={ () => {
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('token');
+                        LogoutUser()
+                        window.location.reload(false);
+                        }}>Logout</button>
                     </li>
                     )}
                 </ul>

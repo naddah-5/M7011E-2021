@@ -1,7 +1,6 @@
 const crypt = require('bcryptjs');
 const token = require('jsonwebtoken');
 const User = require('../../models/user');
-const { returnSimEvent } = require('./helper');
 
 
 module.exports = {
@@ -27,6 +26,19 @@ module.exports = {
         }  catch(err) {
             throw err;
         } 
+    },
+    getUser: async (args,req) => {
+        //if(!req.isAuthenticated) {
+            //throw new Error('Not authorized!');
+        //}
+        try {
+            const user = await User.findOne({_id: args.getUser.userId})
+            return {...user._doc,
+                _id: user.id};
+
+        } catch(err) {
+            throw err;
+        }
     },
     login: async ({email, password}) => {
         const user = await User.findOne({email :email});

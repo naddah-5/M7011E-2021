@@ -5,7 +5,7 @@ const {returnSimEvent} = require('./helper');
 
 module.exports = {
     simEvents: async (req) => {
-        //if(!req.isAuthenticated) {
+        //if(!req.isAuth) {
             //throw new Error('Not authorized!');
         //}
         try {

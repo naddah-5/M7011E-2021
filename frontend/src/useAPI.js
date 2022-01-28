@@ -1,11 +1,12 @@
-import React from "react";
+/* DEPRICATED CLASS */
 
-export async function apiGetSimData() {
-    try {
-      const response = await fetch("http://localhost:4000/graphql", {
+/* GET LATEST DATA FROM GLOBAL SIMULATOR */
+export async function apiGetSimData(token) {
+  try {
+    const response = await fetch("http://localhost:4000/graphql", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body:JSON.stringify({
             query:`{
@@ -22,21 +23,22 @@ export async function apiGetSimData() {
     return await response.json();
     }
     catch(e) {
-        console.log(e);
-      }
+      console.log(e);
+    }
 };
 
+/* GET LASTEST HOUSE DATA FROM CURRENT USER */
 export async function apiGetHouseData() {
   try {
     const response = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body:JSON.stringify({
           query:`{
-            getHouse(houseGet: {
-              userId: "${"61e1d856a423ffc764ea3036"}"
+            getHouse(getHouse: {
+              userId: "${"61eddb33e65f0a5cdd62fa2e"}"
             }) {
               _id
               address
@@ -55,6 +57,7 @@ export async function apiGetHouseData() {
               netProduction
             }}`
     })
+    
   });
 
   return await response.json();
@@ -64,19 +67,19 @@ export async function apiGetHouseData() {
     }
 }; 
 
-
-export async function apiUpdateBuyRatio(buyRatio) {
+/* UPDATE CURRENT USERS HOUSE RATIO OF BUYING FROM MARKET */
+export async function apiUpdateBuyRatio(userId, buyRatio) {
   try {
     const response = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body:JSON.stringify({
           query:`
             mutation {
-              updateHouseBuyRatio(houseBuyRatio: {
-                userId: "${"61e1d856a423ffc764ea3036"}"
+              updateHouseBuyRatio(buyRatioInput: {
+                userId: "${userId}"
                 buyRatio: ${buyRatio}
               }) {
                 buyRatio
@@ -92,18 +95,19 @@ export async function apiUpdateBuyRatio(buyRatio) {
     }
 };
 
-export async function apiUpdateSellRatio(sellRatio) {
+/* UPDATE CURRENT USERS HOUSE RATIO OF SELLING TO THE MARKET */
+export async function apiUpdateSellRatio(userId, sellRatio) {
   try {
     const response = await fetch("http://localhost:4000/graphql", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body:JSON.stringify({
           query:`
             mutation {
-              updateHouseSellRatio(houseSellRatio: {
-                userId: "${"61e1d856a423ffc764ea3036"}"
+              updateHouseSellRatio(sellRatioInput: {
+                userId: "${userId}"
                 sellRatio: ${sellRatio}
               }) {
                 sellRatio
@@ -119,5 +123,32 @@ export async function apiUpdateSellRatio(sellRatio) {
     }
 };
 
+/* GET CURRENT USER INFORMATION */
+export async function apiGetUser(token) {
+  try {
+    const response = await fetch("http://localhost:4000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        },
+        body:JSON.stringify({
+          query:`{
+            getUser {
+              email
+              firstName
+              lastName
+              birthDate
+              address
+              picture
+            }}`
+    })
+  });
 
+  return await response.json(); 
+  }
+  catch(e) {
+    console.log(e);
+  }
+};
 

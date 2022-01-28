@@ -58,6 +58,7 @@ function LoginForm(props) {
         UserStore.isLoggedIn = true;
         UserStore.username = username;
 
+
         UserStore.userId =  result.data.login["userId"];
         UserStore.authToken = result.data.login["token"];
 

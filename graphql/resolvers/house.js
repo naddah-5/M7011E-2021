@@ -4,11 +4,11 @@ const {returnHouse} = require('./helper');
 
 module.exports = {
     getHouse: async (args,req) => {
-        //if(!req.isAuthenticated) {
-            //throw new Error('Not authorized!');
-        //}
+        if(!req.isAuth) {
+            throw new Error('Not authorized!');
+        }
         try {
-            const house = await House.findOne({owner: args.houseGet.userId})
+            const house = await House.findOne({owner: args.getHouse.userId})
             return returnHouse(house);
         } catch(err) {
             throw err;
@@ -24,7 +24,7 @@ module.exports = {
         try {
             const result = await house.save()
       
-            createdProsumer = returnHouse(result);
+            createdHouse = returnHouse(result);
             
             const user = await User.findById(args.houseInput.owner);
       
@@ -40,27 +40,28 @@ module.exports = {
         }
     },
     updateHouseBuyRatio: async (args, req) => {
-        /*if(!req.isAuthenticated) {
+        if(!req.isAuth) {
             throw new Error ("Not authorized");
         }
-        */
+        
        try {
-        const house = await House.updateOne({owner: args.houseBuyRatio.userId}, {buyRatio: args.houseBuyRatio.buyRatio});
+        const house = await House.updateOne({owner: args.buyRatioInput.userId}, {buyRatio: args.buyRatioInput.buyRatio});
         let updatedHouse;
         updatedHouse = returnHouse(house);
         return updatedHouse;
        }
        catch (err) {
+           console.log(err);
         throw (err);
         }
     },
     updateHouseSellRatio: async (args, req) => {
-        /*if(!req.isAuthenticated) {
+        if(!req.isAuth) {
             throw new Error ("Not authorized");
         }
-        */
+        
        try {
-        const house = await House.updateOne({owner: args.houseSellRatio.userId}, {sellRatio: args.houseSellRatio.sellRatio});
+        const house = await House.updateOne({owner: args.sellRatioInput.userId}, {sellRatio: args.sellRatioInput.sellRatio});
         let updatedHouse;
         updatedHouse = returnHouse(house);
         return updatedHouse;
