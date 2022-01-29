@@ -47,7 +47,7 @@ type House {
   buyRatio: Float
   production: Float
   netProduction: Float
-  status: String
+  status: Float
   region: String
 }
 
@@ -86,7 +86,7 @@ input HouseInput {
   buyRatio: Float
   production: Float
   netProduction: Float
-  status: String
+  blockTime: Float
   region: String
 }
 
@@ -144,7 +144,15 @@ input HouseSellRatio {
   sellRatio: Float!
 }
 
+input RegionGridDemand {
+  regionID: String
+  gridDemand: Float
+}
 
+input RegionGridCapacity {
+  regionID: String
+  gridCapacity: Float
+}
 
 type RootQuery {
   simEvents: SimulatorEvent!
@@ -170,6 +178,7 @@ type RootMutation {
   createRegion(): Region
   deleteAllRegions(): Boolean
   regionInfo(): Region
+  updateGridCapacity(regionGridCapacity: RegionGridCapacity): Boolean!
   incrementRegion(incrementRegionInput: IncrementRegionInput): Region
 }
 

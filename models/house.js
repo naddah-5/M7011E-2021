@@ -53,9 +53,9 @@ const houseSchema = new Schema({
         type: Number,
         default: 0
     },
-    status: {
-        type: String,
-        default: "Operating"
+    blockTime: {
+        type: Number,
+        default: 0
     },
     region: {
         type: String,

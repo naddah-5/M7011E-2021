@@ -1,7 +1,6 @@
 import { listAllHomes, incrementHouse } from "../../graphql/resolvers/house";
 import { updateBatteryCapacity } from "../../graphql/resolvers/battery";
-import "./consumptionIncrementor"
-import { findOne } from "../../models/house";
+import { updateGridCapacity } from "../../graphql/resolvers/region";
 const House = require("../../models/house");
 const WindTurbine = require("../../models/windTurbine");
 const Region = require("../../models/region");
@@ -14,8 +13,24 @@ const Simulator = require("../global_simulator");
 async function houseItterator(regionData){
     let houseList = listAllHomes();
     let windVariation = 5;
+    let gridDemandCounter = 0;
+    let regionGridDemand = {};
+    regionGridDemand["regionID"] = regionData.region._id;
+
     while(houseList.length() > 0) {
         let currentHouse = houseList.pop();
+        const currentRegion = await Region.findOne({name: currentHouse.region});
+        let currentGridCapacity = currentRegion.capacity;
+
+        regionGridCapacity = {};
+        regionGridCapacity["regionID"] = currentRegion._id;
+
+        /**
+         * randomize new electricity consumption between chosen values
+         */
+        let newElectricConsumption = Simulator.getElectricityConsumption(0, 100);
+        gridDemandCounter += newElectricConsumption;
+
         /**
          * if the house is has a wind turbine we retrieve and store it in "turbine", then we do some stuff with it.
          */
@@ -28,10 +43,6 @@ async function houseItterator(regionData){
              */
             let localWindSpeed = Simulator.getWind(regionalWindSpeed-windVariation, regionalWindSpeed+windVariation);
             let electricProduction = turbine.efficency * localWindSpeed;
-            /**
-             * randomize new electricity consumption between chosen values
-             */
-            let newElectricConsumption = Simulator.getElectricityConsumption(0, 100);
             /**
              * parse the new values for consumption, production, net production, and battery capacity 
              * and send them to the resolvers to update the DB
@@ -55,10 +66,13 @@ async function houseItterator(regionData){
              * if the production is greater than the consumption we split up the excess production as follows
              */
             if(netProduction >= 0) {
-                let gridSale = netProduction * Simulator.sellRatio;               
+                let gridSale = netProduction * Simulator.sellRatio;
                 let batteryBuffer = netProduction - gridSale;
                 batteryInputData["capacity"] = batteryBuffer;
             
+                regionGridCapacity["gridCapacity"] = gridSale;
+
+                updateGridCapacity(regionGridCapacity);
             }
             else {
                 let fetchedBattery = await Battery.findOne({house: currentHouse._id});
@@ -74,8 +88,16 @@ async function houseItterator(regionData){
                 }
                 else {
                     batteryInputData["capacity"] = 0;
-                }   
+                    electricityFromGrid += capacityDifferential;
+                }
+                if(electricityFromGrid > currentGridCapacity) {
+                    /**
+                     * blackout
+                     */
+                }
+                updateGridCapacity(-electricityFromGrid);
             }
+
             const sendUpdatedBatteryCapacity = await updateBatteryCapacity(batteryInputData);
             
             if(!sendUpdatedBatteryCapacity) {
@@ -83,4 +105,6 @@ async function houseItterator(regionData){
             }
         }
     }
+    regionGridDemand["gridDemand"] = gridDemandCounter;
+
 }

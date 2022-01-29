@@ -49,12 +49,62 @@ module.exports = {
             throw (e);
         }
     },
-    incrementRegion: async (req, args) => {
+    updateGridCapacity: async (args, req) => {
         /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
         }*/
         try {
-            const regionUpdate = await Region.findOneAndUpdate({name: args.name}, {windSpeed: args.windSpeed, gridCapacity: args.gridCapacity, gridDemand: args.gridDemand}, {new: true});
+            /**
+             * Throws an error if grid capacity failed to update, if the desired new grid capacity is below zero or above the max capacity
+             * the function returns false. If the new desired capacity is within current max capacity the function returns true.
+             */
+            let capacityChange = args.regionGridCapacity.gridCapacity;
+            let fetchedRegion = await Region.findOne({_id: args.regionGridCapacity.regionID});
+
+            if(!fetcchedRegion) {
+                throw new Error ("Specified region not found");
+            }
+
+            let newGridCapacity = fetchedRegion.gridCapacity + capacityChange;
+
+            if(newGridCapacity < 0) {
+                const emptyGrid = await Region.findOneAndUpdate({_id: fetchedRegion._id}, {gridCapacity: 0}, {new: true});
+             
+                if(!emptyGrid) {
+                    throw new Error ("Failed to update grid capacity");
+                }
+                return false;
+            }
+            else if(newGridCapacity > fetchedRegion.maxGridCapacity) {
+                const fullGrid = await Region.findOneAndUpdate({_id: fetchedRegion._id}, {gridCapacity: fetchedRegion.maxGridCapacity}, {new: true});
+
+                if(!fullGrid) {
+                    throw new Error ("Failed to update grid capacity");
+                }
+
+                return false;
+            }
+            else {
+                const validGrid = await Region.findOneAndUpdate({_id: fetchedRegion._id}, {gridCapacity: newGridCapacity}, {new: true});
+            
+                if(!validGrid) {
+                    throw new Error ("Failed to update grid capacity");
+                }
+
+                return true;
+            }
+            
+        }
+        catch (e) {
+            throw (e);
+        }
+    },
+    incrementRegion: async (args, req) => {
+        /*if(!req.isAuthenticated) {
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            const regionUpdate = await Region.findOneAndUpdate({name: args.incrementRegionInput.name}, {windSpeed: args.incrementRegionInput.windSpeed, gridCapacity: args.incrementRegionInput.gridCapacity, gridDemand: args.gridDemand}, {new: true});
             const result = await regionUpdate.save();
       
             return result;
