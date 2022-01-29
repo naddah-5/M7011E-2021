@@ -5,9 +5,9 @@ const {returnSimEvent} = require('./helper');
 
 module.exports = {
     simEvents: async (req) => {
-        //if(!req.isAuth) {
-            //throw new Error('Not authorized!');
-        //}
+        if(!req.isAuth) {
+            throw new Error('Not authorized!');
+        }
         try {
             const simEvent = await SimulatorEvent.findOne({sort: {'createdAt' : -1}})
             return returnSimEvent(simEvent);

@@ -7,6 +7,13 @@ function Home() {
     const [ev, setEventResult] = useState([]);
     const [ho, setHouseResult] = useState([]);
 
+
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    })
+
     useEffect(async () => {
        
         try {
@@ -15,7 +22,7 @@ function Home() {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + localStorage.getItem('token')
+                  Authorization: "Bearer " + token
                 },
                 body:JSON.stringify({
                   query:`{

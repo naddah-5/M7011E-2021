@@ -28,9 +28,9 @@ module.exports = {
         } 
     },
     getUser: async (args,req) => {
-        //if(!req.isAuthenticated) {
-            //throw new Error('Not authorized!');
-        //}
+        if(!req.isAuth) {
+            throw new Error('Not authorized!');
+        }
         try {
             const user = await User.findOne({_id: args.getUser.userId})
             return {...user._doc,

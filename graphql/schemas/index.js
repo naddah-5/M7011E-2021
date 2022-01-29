@@ -91,6 +91,10 @@ input GetHouse {
   userId: ID!
 }
 
+input GetUser {
+  userId: ID!
+}
+
 input SimulatorEventInput {
   windSpeed: Float!
   electricityDemand: Float!
@@ -113,7 +117,7 @@ type RootQuery {
   simEvents: SimulatorEvent!
   getHouse(getHouse: GetHouse): House!
   login(email: String!, password: String!): AuthData!
-  getUser: User!
+  getUser(getUser: GetUser): User!
   
 }
 
