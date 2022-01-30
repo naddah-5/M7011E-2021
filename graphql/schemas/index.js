@@ -178,7 +178,6 @@ type RootMutation {
   createSimEvent(simulatorEventInput: SimulatorEventInput): SimulatorEvent
   createUser(userInput: UserInput): User
   createHouse(houseInput: HouseInput): House
-  deleteHouse(houseInput: HouseInput): Boolean!
   updateHouseBuyRatio(buyRatioInput: BuyRatioInput): House
   updateHouseSellRatio(sellRatioInput: SellRatioInput): House
   deleteHouse(houseInput: HouseInput): Boolean
