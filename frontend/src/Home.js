@@ -8,40 +8,35 @@ function Home() {
     const [ho, setHouseResult] = useState([]);
 
 
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        setToken(localStorage.getItem('token'));
-    })
+    useEffect(async () => {
+      try {
+        
+        const res = await fetch("http://localhost:4000/graphql", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body:JSON.stringify({
+                query:`{
+                  simEvents {
+                    _id
+                    windSpeed
+                    electricityDemand
+                    price
+                    date
+                  }}`
+          })
+        });
+    
+        let eventResult = await res.json();
+        setEventResult(eventResult.data.simEvents);
+        }
+        catch(e) {
+          console.log(e);
+        }
+    },[]);
 
     useEffect(async () => {
-       
-        try {
-        
-          const res = await fetch("http://localhost:4000/graphql", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + token
-                },
-                body:JSON.stringify({
-                  query:`{
-                    simEvents {
-                      _id
-                      windSpeed
-                      electricityDemand
-                      price
-                      date
-                    }}`
-            })
-          });
-      
-          let eventResult = await res.json();
-          setEventResult(eventResult.data.simEvents);
-          }
-          catch(e) {
-            console.log(e);
-          }
 
         try {
           const res = await fetch("http://localhost:4000/graphql", {
