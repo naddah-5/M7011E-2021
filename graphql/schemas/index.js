@@ -47,8 +47,19 @@ type House {
   buyRatio: Float
   production: Float
   netProduction: Float
+  status: Float
+  region: String
 }
 
+type Region {
+  _id: ID!
+  name: String
+  temperature: Float
+  windSpeed: Float
+  gridCapacity: Float
+  maxGridCapacity: Float
+  gridDemand: Float
+}
 
 type AuthData {
   userId: ID!
@@ -75,6 +86,8 @@ input HouseInput {
   buyRatio: Float
   production: Float
   netProduction: Float
+  blockTime: Float
+  region: String
 }
 
 input WindTurbineInput {
@@ -107,17 +120,57 @@ input SellRatioInput {
   sellRatio: Float!
 }
 
+input RegionInput {
+  name: String
+  temperature: Float
+  windSpeed: Float
+  gridCapacity: Float
+  maxGridCapacity: Float
+  gridDemand: Float
+}
+
+input IncrementRegionInput {
+  name: String!
+  windSpeed: Float!
+  gridCapacity: Float!
+  gridDemand: Float!
+}
+
+input HouseGet {
+  userId: ID!
+  sellRatio: Float!
+}
+
 input BuyRatioInput {
   userId: ID!
   buyRatio: Float!
 }
 
+input IncrementHouse {
+  id: String
+  consumption: Float
+  production: Float
+  netProduction: Float
+}
+
+
+input RegionGridDemand {
+  regionID: String
+  gridDemand: Float
+}
+
+input RegionGridCapacity {
+  regionID: String
+  gridCapacity: Float
+}
 
 type RootQuery {
   simEvents: SimulatorEvent!
   getHouse(getHouse: GetHouse): House!
   login(email: String!, password: String!): AuthData!
   getUser(getUser: GetUser): User!
+  listAllHomes: [House]
+  regionInfo: Region
   
 }
 
@@ -128,6 +181,17 @@ type RootMutation {
   deleteHouse(houseInput: HouseInput): Boolean!
   updateHouseBuyRatio(buyRatioInput: BuyRatioInput): House
   updateHouseSellRatio(sellRatioInput: SellRatioInput): House
+  deleteHouse(houseInput: HouseInput): Boolean
+  incrementHouse(incrementHouse: IncrementHouse): House
+  createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
+  deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean
+  createBattery(batteryInput: BatteryInput): Battery
+  deleteBattery(batteryInput: BatteryInput): Boolean
+  updateBatteryCapacity(batteryInput: BatteryInput): Battery
+  createRegion: Region
+  deleteAllRegions: Boolean
+  updateGridCapacity(regionGridCapacity: RegionGridCapacity): Boolean!
+  incrementRegion(incrementRegionInput: IncrementRegionInput): Region
 }
 
 schema {

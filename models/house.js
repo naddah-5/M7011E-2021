@@ -52,6 +52,14 @@ const houseSchema = new Schema({
     netProduction: {
         type: Number,
         default: 0
+    },
+    blockTime: {
+        type: Number,
+        default: 0
+    },
+    region: {
+        type: String,
+        default: "Luleå"
     }
 })
 

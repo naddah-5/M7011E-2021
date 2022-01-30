@@ -14,8 +14,10 @@ module.exports = {
             throw err;
         }
     },
-    createHouse: async (args) => {
-        
+    createHouse: async (args, req) => {
+        /*if(!req.isAuthenticated) {
+            throw new Error (("Not authorized"));
+        }*/
         const house = new House({
             address: args.houseInput.address,
             owner: args.houseInput.owner
@@ -37,6 +39,26 @@ module.exports = {
             return createdHouse;
         } catch(err) {
             throw err;
+        }
+    },
+    incrementHouse: async (args, req) => {
+        /*if(!req.isAuthenticated) {
+            throw new Error (("Not authorized"));
+        }*/
+        try {
+            const house = await House.findOne({_id: args.incrementHouse._id});
+            if(!house) {
+                throw new Error ("Specified house was not found");
+            }
+            const houseOperation = await House.findOneAndUpdate({_id: args.incrementHouse._id}, {
+                consumption: args.incrementHouse.consumption,
+                production: args.incrementHouse.production,
+                netProduction: args.incrementHouse.netProduction
+            }, {new: true});
+            return houseOperation;
+        }
+        catch (e) {
+            throw (e);
         }
     },
     updateHouseBuyRatio: async (args, req) => {
@@ -70,6 +92,18 @@ module.exports = {
         throw (err);
         }
     },
+    updateHouseProduction: async (args, newProduction, req) => {
+        /*if(!req.usAuthenticated) {
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            let res = House.updateOne({_id: args.house._id}, {production: newProduction});
+            return res.result.ok;
+        }
+        catch (e) {
+            throw (e);
+        }
+    },
     deleteHouse: async (args, req) => {
         /*if(!req.isAuthenticated) {
             throw new Error ("Not authorized");
@@ -85,6 +119,18 @@ module.exports = {
             return result.acknowledged;
         }
         catch(e) {
+            throw (e);
+        }
+    },
+    listAllHomes: async (req) => {
+        /*if (!req.isAuthenticated) {
+            throw new Error ("Not authorized");
+        }*/
+        try {
+            const allHomes = await House.find().toArray();
+            return allHomes;            
+        }
+        catch (e) {
             throw (e);
         }
     }
