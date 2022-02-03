@@ -127,6 +127,10 @@ input HouseGet {
   userId: ID!
 }
 
+input GetHouseStatus {
+  _id: String!
+}
+
 input IncrementHouse {
   id: String
   consumption: Float
@@ -170,6 +174,7 @@ type RootMutation {
   updateHouseBuyRatio(houseBuyRatio: HouseBuyRatio): House
   updateHouseSellRatio(houseSellRatio: HouseSellRatio): House
   listAllHomes: [House]
+  getStatus(getHouseStatus)
   createWindTurbine(windTurbineInput: WindTurbineInput): WindTurbine
   deleteWindTurbine(windTurbineInput: WindTurbineInput): Boolean
   createBattery(batteryInput: BatteryInput): Battery

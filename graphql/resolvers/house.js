@@ -132,5 +132,18 @@ module.exports = {
         catch (e) {
             throw (e);
         }
+    },
+    getStatus: async (args, req) => {
+        /*
+        if (!req.isAuthenticated) {
+            throw new Error ("Not authorized");
+        }
+        */
+       try {
+            const fetchedHouse = await House.findOne({_id: args.house})
+       }
+       catch (e) {
+           throw (e);
+       }
     }
 };

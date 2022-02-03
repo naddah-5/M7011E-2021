@@ -10,7 +10,7 @@ const Simulator = require("../global_simulator");
 //for instance a function that takes a houses data as input, retrieves the region data and returns the itterated house data
 
 //the arguments should probably be compiled into a json object
-async function houseItterator(regionData){
+async function houseIterator(regionData){
     let houseList = listAllHomes();
     let windVariation = 5;
     let gridDemandCounter = 0;
@@ -94,6 +94,7 @@ async function houseItterator(regionData){
                     /**
                      * blackout
                      */
+                    
                 }
                 updateGridCapacity(-electricityFromGrid);
             }
